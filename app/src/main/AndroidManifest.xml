@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wfzcx.ieos">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <application
+        android:name=".app.APP"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="MODEL"
+            android:value="
+            com.wfzcx.ieos.data.model.AccountModel,
+            com.wfzcx.ieos.data.model.KpiDataModel
+            " />
+
+        <activity
+            android:name=".LaunchActivity"
+            android:theme="@style/LaunchTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".LoginActivity" />
+
+        <activity android:name=".MainActivity" />
+
+        <!-- 折线柱状图 -->
+        <activity android:name=".module.chart.KpiMixChartActivity" />
+
+        <!-- 饼图 -->
+        <activity android:name=".module.chart.KpiPieChartActivity" />
+
+        <!-- 表格 -->
+        <activity android:name=".module.chart.KpiGridChartActivity" />
+
+
+    </application>
+
+</manifest>

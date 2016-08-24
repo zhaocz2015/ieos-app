@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/mod_pwd"
+            android:icon="@drawable/nav_mod_pwd"
+            android:title="修改密码" />
+        <item
+            android:id="@+id/update"
+            android:icon="@drawable/nav_update"
+            android:title="系统更新" />
+        <item
+            android:id="@+id/about"
+            android:icon="@drawable/nav_about"
+            android:title="关于APP" />
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/nav_logout"
+            android:title="注销用户" />
+    </group>
+
+</menu>

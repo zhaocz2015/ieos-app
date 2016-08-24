@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--back 返回按钮 -->
+    <string name="ion_back">&#xe630;</string>
+    <!-- PPP -->
+    <string name="ion_ppplogo">&#xe64a;</string>
+    <!-- 首页 -->
+    <string name="ion_shouyeshouye">&#xe601;</string>
+    <!-- 项目案例 -->
+    <string name="ion_xiangmuxinxi">&#xe61b;</string>
+    <!-- 新闻资讯 -->
+    <string name="ion_xinwenzixun">&#xe60d;</string>
+    <!-- 推介项目 -->
+    <string name="ion_icase">&#xe65b;</string>
+    <!-- 公共话题 -->
+    <string name="ion_discuss">&#xe600;</string>
+    <!-- 个人 -->
+    <string name="ion_gerenzhongxin">&#xe612;</string>
+    <!-- 问专家-->
+    <string name="ion_chat2">&#xe62d;</string>
+    <!-- 讨论圈-->
+    <string name="ion_qunzuduoren">&#xe634;</string>
+    <!-- 项目库-->
+    <string name="ion_danganku">&#xe633;</string>
+    <!-- 工具库-->
+    <string name="ion_jisuanqi">&#xe61c;</string>
+    <!-- 右箭头-->
+    <string name="ion_go">&#xe63e;</string>
+    <!-- 位置坐标-->
+    <string name="ion_zuobiao">&#xe649;</string>
+    <!-- 搜索-->
+    <string name="ion_search">&#xe62e;</string>
+    <!-- 统计排行-->
+    <string name="ion_quyupaiming1">&#xe636;</string>
+    <!-- 关联的人-->
+    <string name="ion_renwu">&#xe639;</string>
+    <!-- 我的收藏-->
+    <string name="ion_shoucang">&#xe60b;</string>
+    <!-- 我的评论-->
+    <string name="ion_wodexiaoxi">&#xe611;</string>
+    <!-- 我的消息-->
+    <string name="ion_wodexiaoxi1">&#xe61f;</string>
+    <!-- 我的话题-->
+    <string name="ion_icon03">&#xe64b;</string>
+    <!-- 系统设置-->
+    <string name="ion_set">&#xe631;</string>
+    <!-- 分享-->
+    <string name="ion_fenxiang">&#xe62f;</string>
+    <!-- 字体大小-->
+    <string name="ion_zitidaxiao">&#xe616;</string>
+    <!-- 法律法规-->
+    <string name="ion_iconfontfalvfagui">&#xe615;</string>
+    <!-- 国务院规范性文件-->
+    <string name="ion_gongjuxiang">&#xe643;</string>
+    <!-- 部门规范性文件-->
+    <string name="ion_iconwenjianjia">&#xe617;</string>
+    <!-- 地方规范性文件-->
+    <string name="ion_wenjian">&#xe644;</string>
+    <!-- 指南和标准-->
+    <string name="ion_shu">&#xe603;</string>
+    <!-- 上箭头-->
+    <string name="ion_up_arrow">&#xe637;</string>
+    <!-- 下箭头-->
+    <string name="ion_down_arrow">&#xe64c;</string>
+    <!-- 采购公告-->
+    <string name="ion_order_item">&#xe623;</string>
+    <!-- 会议-->
+    <string name="ion_huiyi">&#xe648;</string>
+    <!-- 培训-->
+    <string name="ion_peixun">&#xe646;</string>
+    <!-- 活动-->
+    <string name="ion_huodong">&#xe647;</string>
+    <!-- 沙龙-->
+    <string name="ion_shalong">&#xe645;</string>
+    <!-- 医疗卫生-->
+    <string name="ion_indust_yiliaoweisheng">&#xe609;</string>
+    <!-- 保障性安居工程-->
+    <string name="ion_indust_anjugongcheng">&#xe608;</string>
+    <!-- 科技-->
+    <string name="ion_indust_keji">&#xe621;</string>
+    <!-- 林业-->
+    <string name="ion_indust_linye">&#xe61e;</string>
+    <!-- 农业-->
+    <string name="ion_indust_nongye">&#xe624;</string>
+    <!-- 生态建设和环境保护-->
+    <string name="ion_indust_huanjingbaohu">&#xe60c;</string>
+    <!-- 水利建设-->
+    <string name="ion_indust_shuili">&#xe625;</string>
+    <!-- 交通运输-->
+    <string name="ion_indust_jiatong">&#xe623;</string>
+    <!-- 其他-->
+    <string name="ion_indust_qita">&#xe618;</string>
+    <!--社会保障 -->
+    <string name="ion_indust_shehui">&#xe61d;</string>
+    <!--旅游 -->
+    <string name="ion_indust_lvyou">&#xe62a;</string>
+    <!--片区开发 -->
+    <string name="ion_indust_pianqu">&#xe627;</string>
+    <!--政府基础设施 -->
+    <string name="ion__indust_zhengfu">&#xe632;</string>
+    <!--市政工程 -->
+    <string name="ion_indust_shizheg">&#xe607;</string>
+    <!--体育-->
+    <string name="ion_indust_tiyu">&#xe614;</string>
+    <!--文化 -->
+    <string name="ion_indust_wenhua">&#xe60a;</string>
+    <!-- 教育-->
+    <string name="ion_indsut_jiaoyu">&#xe604;</string>
+    <!--养老 -->
+    <string name="ion_indust_yanglao">&#xe602;</string>
+    <!--能源 -->
+    <string name="ion_indust_nengyuan">&#xe610;</string>
+    <!--点赞 -->
+    <string name="ion_like">&#xe60e;</string>
+    <!-- 收藏-->
+    <string name="ion_star">&#xe60b;</string>
+    <!--已关联 -->
+    <string name="ion_is_relation">&#xe64e;</string>
+    <!--创建话题 -->
+    <string name="ion_create_topic">&#xe638;</string>
+    <!--热门话题 -->
+    <string name="ion_hot_topic">&#xe63b;</string>
+    <!--最新话题 -->
+    <string name="ion_new_topic">&#xe64f;</string>
+    <!--图片缩略图 -->
+    <string name="ion_pic_thumb">&#xe60f;</string>
+    <!--调节字体大小 -->
+    <string name="ion_font_size">&#xe616;</string>
+    <!-- 统计排行-->
+    <string name="ion_data_stats">&#xe636;</string>
+    <!-- 添加-->
+    <string name="ion_add">&#xe640;</string>
+    <!-- 我的消息-验证提醒-->
+    <string name="ion_msg_tip">&#xe611;</string>
+    <!-- 验证消息-垃圾箱 -->
+    <string name="ion_clear">&#xe652;</string>
+    <!-- 项目案例-TOP -->
+    <string name="ion_case_top">&#xe64d;</string>
+    <!-- 没有专家- 小手 -->
+    <string name="ion_hand">&#xe654;</string>
+    <!--问专家-->
+    <string name="ion_ask_expr">&#xe65a;</string>
+    <!--项目库-->
+    <string name="ion_proj_lib">&#xe65c;</string>
+    <!--报名-->
+    <string name="ion_train_class">&#xe657;</string>
+    <!--报名管理-->
+    <string name="ion_train_mgr">&#xe65e;</string>
+    <!--课程列表-->
+    <string name="ion_course_list">&#xe658;</string>
+
+</resources>
