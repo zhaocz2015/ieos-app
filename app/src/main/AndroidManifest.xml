@@ -31,9 +31,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".module.login.LoginActivity" />
 
-        <activity android:name=".MainActivity" />
+        <activity android:name=".module.main.MainActivity" />
 
         <!-- 折线柱状图 -->
         <activity android:name=".module.chart.KpiMixChartActivity" />

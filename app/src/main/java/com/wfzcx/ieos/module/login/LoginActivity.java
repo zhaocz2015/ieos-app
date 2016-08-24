@@ -1,4 +1,4 @@
-package com.wfzcx.ieos;
+package com.wfzcx.ieos.module.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,12 +15,14 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.jude.beam.expansion.BeamBaseActivity;
 import com.jude.utils.JFileManager;
 import com.jude.utils.JUtils;
+import com.wfzcx.ieos.R;
 import com.wfzcx.ieos.app.Const;
 import com.wfzcx.ieos.app.Dir;
 import com.wfzcx.ieos.data.bean.ServerAddr;
 import com.wfzcx.ieos.data.model.AccountModel;
 import com.wfzcx.ieos.data.service.DyncUrlInterceptor;
 import com.wfzcx.ieos.data.service.ErrorTransform;
+import com.wfzcx.ieos.module.main.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

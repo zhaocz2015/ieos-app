@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.wfzcx.ieos.data.model.AccountModel;
+import com.wfzcx.ieos.module.login.LoginActivity;
+import com.wfzcx.ieos.module.main.MainActivity;
 
 /**
  * Copyright (C) 2016

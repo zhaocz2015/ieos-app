@@ -17,10 +17,10 @@ import android.widget.TextView;
 
 import com.jude.beam.expansion.BeamBaseActivity;
 import com.jude.utils.JUtils;
-import com.wfzcx.ieos.LoginActivity;
 import com.wfzcx.ieos.R;
 import com.wfzcx.ieos.data.model.AccountModel;
 import com.wfzcx.ieos.module.kpi.KpiServiceFragment;
+import com.wfzcx.ieos.module.login.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
