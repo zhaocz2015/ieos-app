@@ -17,6 +17,7 @@ import com.wfzcx.ieos.utils.ResUtil;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -61,7 +62,8 @@ public class KpiServiceVHolder extends BaseViewHolder<Map> {
                 }
 
                 Intent i = new Intent(getContext(), clazz);
-                i.putExtra("jsonStr", jsonObj.toString());
+//                i.putExtra("jsonStr", jsonObj.toString());
+                i.putExtra("menu", menu.get("name").toString());
                 getContext().startActivity(i);
 
             } catch (Exception e) {

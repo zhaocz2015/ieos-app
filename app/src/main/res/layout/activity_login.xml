@@ -22,10 +22,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/ll_logo"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/ll_logo"
         android:orientation="vertical">
 
         <EditText
@@ -48,10 +48,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/input_round_border"
-            android:hint="请输入密码"
-            android:inputType="textPassword"
             android:drawableLeft="@drawable/ic_login_lock"
             android:drawablePadding="8dp"
+            android:hint="请输入密码"
+            android:inputType="textPassword"
             android:padding="12dp"
             android:textColor="#000"
             android:textColorHint="#c7c7c7"
@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:background="@drawable/btn_login_selector"/>
+            android:background="@drawable/btn_login_selector" />
 
     </LinearLayout>
 
@@ -70,10 +70,9 @@
         android:id="@+id/btn_setting"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:background="@drawable/ic_login_setting"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="20dp"
-        />
+        android:background="@drawable/ic_login_setting" />
 
 </RelativeLayout>

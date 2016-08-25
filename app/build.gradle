@@ -52,9 +52,11 @@ dependencies {
 //        transitive = true
 //    }
     //hello-charts
-    compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
+//    compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
+    // charts
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
     // tableview
-    compile 'de.codecrafters.tableview:tableview:2.2.1'
+//    compile 'de.codecrafters.tableview:tableview:2.2.1'
     // picker-view
     compile 'com.bigkoo:pickerview:2.1.1'
 }

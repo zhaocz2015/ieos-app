@@ -1,34 +1,40 @@
 package com.wfzcx.ieos.module.chart;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CombinedData;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.jude.beam.expansion.BeamBaseActivity;
+import com.jude.utils.JUtils;
 import com.wfzcx.ieos.R;
+import com.wfzcx.ieos.data.model.KpiDataModel;
+import com.wfzcx.ieos.data.service.ProgressDialogTransform;
 import com.wfzcx.ieos.ui.FontIcon;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import lecho.lib.hellocharts.listener.ComboLineColumnChartOnValueSelectListener;
-import lecho.lib.hellocharts.model.Axis;
-import lecho.lib.hellocharts.model.AxisValue;
-import lecho.lib.hellocharts.model.Column;
-import lecho.lib.hellocharts.model.ColumnChartData;
-import lecho.lib.hellocharts.model.ComboLineColumnChartData;
-import lecho.lib.hellocharts.model.Line;
-import lecho.lib.hellocharts.model.LineChartData;
-import lecho.lib.hellocharts.model.PointValue;
-import lecho.lib.hellocharts.model.SubcolumnValue;
-import lecho.lib.hellocharts.util.ChartUtils;
-import lecho.lib.hellocharts.view.ComboLineColumnChartView;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 /**
  * Copyright (C) 2016
@@ -46,12 +52,14 @@ public class KpiMixChartActivity extends BeamBaseActivity {
     TextView tbTitle;
 
     @BindView(R.id.chart_view)
-    ComboLineColumnChartView chartView;
+    CombinedChart mChart;
 
-    private ComboLineColumnChartData data;
+    @BindView(R.id.tabs_kpi)
+    TabLayout mTabLayout;
 
-    private JSONObject jsonObj;
-    private JSONArray paramArr;
+    @BindView(R.id.vp_kpi)
+    ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,189 +67,171 @@ public class KpiMixChartActivity extends BeamBaseActivity {
         setContentView(R.layout.activity_kpi_mix_chart);
         ButterKnife.bind(this);
 
-
-        try {
-            jsonObj = new JSONObject(getIntent().getStringExtra("jsonStr"));
-            initToolbar();
-
-//            Map<String, RequestBody> params = new HashMap<>();
-//            paramArr = jsonObj.getJSONArray("params");
-//            int len = paramArr.length();
-//            if (len > 0) {
-//                recurseQryData(len, paramArr.getJSONObject(0));
-//            }
-//
-//
-//            if (!jsonObj.getBoolean("multiSql")) {
-//                if (jsonObj.get("params") instanceof JSONArray) {
-//                    JSONArray paramObjs = jsonObj.getJSONArray("params");
-//                    int len = paramObjs.length();
-//
-//                    JSONObject paramObj = paramObjs.getJSONObject(0);
-//                    Iterator<String> keys = paramObj.keys();
-//                    while (keys.hasNext()) {
-//                        String key = keys.next();
-//                        String val = paramObj.getString(key);
-//                        if (val.indexOf("$") != -1) {
-//                            val = val.replaceAll("$", "'");
-//                        }
-//
-//                        params.put(key, RequestBody.create(MediaType.parse("text/plain"), val));
-//                    }
-//
-//                    KpiDataModel.getInstance().getKpiData(params)
-//                            .compose(new ProgressDialogTransform<>(KpiMixChartActivity.this, "正在请求数据"))
-//                            .subscribe(list -> {
-//
-//                            });
-//
-//
-//                } else if (jsonObj.get("params") instanceof JSONObject) {
-//
-//                }
-//            } else {
-//
-//            }
-//
-//
-////            params.put("type", jsonObj.getJSONArray(""));
-//
-//            KpiDataModel.getInstance().getKpiData(params);
-
-
-            initChart();
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void recurseQryData(int len, JSONObject params) {
-        // 没有参数，可以传递查询
-        if (params == null) {
-            return;
-        }
-
+        initToolbar();
+        initMixData();
 
     }
 
-    private void initToolbar() throws JSONException {
-        tbTitle.setText(jsonObj.getString("menuName"));
+    private void initToolbar() {
+        tbTitle.setText("");
         ficActionLeft.setOnClickListener(v -> finish());
     }
 
-    private int numberOfLines = 1;
-    private int maxNumberOfLines = 4;
-    private int numberOfPoints = 12;
+    private void initMixData() {
+        // 查询当前数据可查询日期
+        Map<String, RequestBody> params = new HashMap<>();
+        params.put("type", RequestBody.create(MediaType.parse("text/plain"), "dz_base_lastyearmonth"));
+        params.put("wheresql", RequestBody.create(MediaType.parse("text/plain"), " b.dscode = 'REGION' "));
 
-    private void initChart() {
-        chartView.setOnValueTouchListener(new ValueTouchListener());
+        KpiDataModel.getInstance().getKpiData(params)
+                .compose(new ProgressDialogTransform<>(KpiMixChartActivity.this, "正在请求数据"))
+                .subscribe(rsList -> {
+                    if (rsList.isEmpty()) {
+                        JUtils.Toast("暂无数据");
+                        return;
+                    }
 
-        generateValues();
-        generateData();
+                    Map rsMap = rsList.get(0);
+                    String date = rsMap.get("yd").toString();
+                    String nd = date.substring(0, 4);
+                    String yd = date.substring(5, 7);
+
+                    params.put("month_id", RequestBody.create(MediaType.parse("text/plain"), nd + "-" + yd));
+
+                    initChartView(params);
+                    initViewPager(params);
+
+                    // 请求图表和表格数据
+//                    Map<String, RequestBody> nparams = new HashMap<>();
+//                    KpiDataModel.getInstance().getKpiData(nparams)
+//                            .compose(new ProgressDialogTransform<>(KpiMixChartActivity.this, "正在请求数据"))
+//                            .subscribe(nrsList -> {
+//                                initChartView(nrsList);
+//
+//                            });
+                });
     }
 
-    float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+    private void initChartView(Map<String, RequestBody> params) {
 
-    private void generateValues() {
-        for (int i = 0; i < maxNumberOfLines; ++i) {
-            for (int j = 0; j < numberOfPoints; ++j) {
-                randomNumbersTab[i][j] = (float) Math.random() * 50f + 5;
+        String[] titles = {"工业增加值", "主营业务收入", "利润总额", "实现利税"};
+        String[] kpiIds = {"500", "13", "26", "550"};
+
+        params.put("type", RequestBody.create(MediaType.parse("text/plain"), "pro_macro_city_region_sql"));
+        params.put("tatgetId", RequestBody.create(MediaType.parse("text/plain"), kpiIds[0]));
+
+
+        KpiDataModel.getInstance().getKpiData(params)
+                .compose(new ProgressDialogTransform<>((BeamBaseActivity) this, "正在请求数据"))
+                .subscribe(rsList -> {
+
+                    Legend l = mChart.getLegend();
+                    l.setWordWrapEnabled(true);
+                    l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
+
+                    YAxis rightAxis = mChart.getAxisRight();
+                    rightAxis.setDrawGridLines(false);
+                    rightAxis.setAxisMinValue(0f);
+
+                    YAxis leftAxis = mChart.getAxisLeft();
+                    leftAxis.setDrawGridLines(false);
+                    leftAxis.setAxisMinValue(0f);
+
+                    XAxis xAxis = mChart.getXAxis();
+                    xAxis.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
+                    xAxis.setAxisMinValue(0f);
+                    xAxis.setGranularity(1f);
+                    xAxis.setValueFormatter(new AxisValueFormatter() {
+                        @Override
+                        public String getFormattedValue(float value, AxisBase axis) {
+                            int index = (int) value % rsList.size();
+                            return rsList.get(index).get("name").toString();
+                        }
+
+                        @Override
+                        public int getDecimalDigits() {
+                            return 0;
+                        }
+                    });
+
+                    mChart.setDrawOrder(new CombinedChart.DrawOrder[]{
+                            CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE
+                    });
+
+                    CombinedData data = new CombinedData();
+
+                    // 折线数据
+                    LineData ld = new LineData();
+                    ArrayList<Entry> entries = new ArrayList<Entry>();
+                    for (int i = 0; i < rsList.size(); i++) {
+                        entries.add(new Entry(i, Float.valueOf(String.valueOf(rsList.get(i).get("valAccPy")))));
+                    }
+                    LineDataSet set = new LineDataSet(entries, "累计增幅");
+                    set.setAxisDependency(YAxis.AxisDependency.LEFT);
+                    ld.addDataSet(set);
+                    data.setData(ld);
+
+                    // 柱状数据
+                    ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
+                    for (int i = 0; i < rsList.size(); i++) {
+                        entries1.add(new BarEntry(i, Float.valueOf(String.valueOf(rsList.get(i).get("valAcc")))));
+                    }
+                    BarDataSet set1 = new BarDataSet(entries1, "累计");
+                    set1.setAxisDependency(YAxis.AxisDependency.RIGHT);
+
+                    BarData bd = new BarData(set1);
+                    data.setData(bd);
+
+                    mChart.setData(data);
+                    mChart.invalidate();
+
+                });
+
+
+    }
+
+    private void initViewPager(Map<String, RequestBody> params) {
+
+        mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+
+            private String[] titles = {"工业增加值", "主营业务收入", "利润总额", "实现利税"};
+            private String[] kpiIds = {"500", "13", "26", "550"};
+
+            @Override
+            public Fragment getItem(int position) {
+
+                Bundle b = new Bundle();
+
+                params.put("type", RequestBody.create(MediaType.parse("text/plain"), "pro_macro_city_region_sql"));
+                params.put("tatgetId", RequestBody.create(MediaType.parse("text/plain"), kpiIds[position]));
+
+                JUtils.Toast("current tabIndex === " + position + "---->" + kpiIds[position]);
+
+                b.putSerializable("params", (HashMap) params);
+
+                KpiGridDataFragment fragment = new KpiGridDataFragment();
+                fragment.setArguments(b);
+
+                return fragment;
             }
-        }
-    }
 
-    private void generateData() {
-        // Chart looks the best when line data and column data have similar maximum viewports.
-        data = new ComboLineColumnChartData(generateColumnData(), generateLineData());
-
-        if (true) {
-            Axis axisX = new Axis();
-            List<AxisValue> axisValues = new ArrayList<>();
-            for (int i = 0; i < 12; i++) {
-                AxisValue av = new AxisValue(i);
-                av.setLabel("黄山" + i);
-                axisValues.add(av);
-            }
-            axisX.setValues(axisValues);
-
-            Axis axisY = new Axis().setHasLines(true);
-            Axis axisZ = new Axis();
-
-            data.setAxisXBottom(axisX);
-            data.setAxisYLeft(axisY);
-            data.setAxisYRight(axisZ);
-        } else {
-            data.setAxisXBottom(null);
-            data.setAxisYLeft(null);
-        }
-
-        chartView.setComboLineColumnChartData(data);
-    }
-
-    private LineChartData generateLineData() {
-
-        List<Line> lines = new ArrayList<Line>();
-        for (int i = 0; i < numberOfLines; ++i) {
-
-            List<PointValue> values = new ArrayList<PointValue>();
-            for (int j = 0; j < numberOfPoints; ++j) {
-                values.add(new PointValue(j, randomNumbersTab[i][j]));
+            @Override
+            public int getCount() {
+                return titles.length;
             }
 
-            Line line = new Line(values);
-            line.setColor(ChartUtils.COLORS[i]);
-            line.setCubic(true);
-            line.setHasLabels(false);
-            line.setHasLines(true);
-            line.setHasPoints(true);
-            lines.add(line);
-        }
-
-        LineChartData lineChartData = new LineChartData(lines);
-
-        return lineChartData;
-
-    }
-
-    private ColumnChartData generateColumnData() {
-        int numSubcolumns = 1;
-        int numColumns = 12;
-        // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
-        List<Column> columns = new ArrayList<Column>();
-        List<SubcolumnValue> values;
-        for (int i = 0; i < numColumns; ++i) {
-
-            values = new ArrayList<SubcolumnValue>();
-            for (int j = 0; j < numSubcolumns; ++j) {
-                values.add(new SubcolumnValue((float) Math.random() * 50 + 5, ChartUtils.COLORS[j]));
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return titles[position];
             }
 
-            columns.add(new Column(values));
-        }
-
-        ColumnChartData columnChartData = new ColumnChartData(columns);
-        return columnChartData;
-    }
-
-    private class ValueTouchListener implements ComboLineColumnChartOnValueSelectListener {
-
-        @Override
-        public void onValueDeselected() {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void onColumnValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
-            Toast.makeText(KpiMixChartActivity.this, "Selected column: " + value, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onPointValueSelected(int lineIndex, int pointIndex, PointValue value) {
-            Toast.makeText(KpiMixChartActivity.this, "Selected line point: " + value, Toast.LENGTH_SHORT).show();
-        }
+            @Override
+            public int getItemPosition(Object object) {
+                return POSITION_NONE;
+            }
+        });
+        mTabLayout.setupWithViewPager(mViewPager);
 
     }
 

@@ -6,10 +6,5 @@
     android:orientation="vertical">
 
 
-    <de.codecrafters.tableview.TableView
-        android:id="@+id/table_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        table:tableView_headerElevation="10" />
 
 </LinearLayout>

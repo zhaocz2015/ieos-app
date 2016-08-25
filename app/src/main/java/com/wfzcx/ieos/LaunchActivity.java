@@ -25,8 +25,8 @@ public class LaunchActivity extends AppCompatActivity {
 
         Class clazz = LoginActivity.class;
         if (AccountModel.getInstance().isLogin()) {
+            clazz = MainActivity.class;
         }
-        clazz = MainActivity.class;
 
         startActivity(new Intent(this, clazz));
 

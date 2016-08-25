@@ -1,12 +1,13 @@
 package com.wfzcx.ieos.module.chart;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.jude.beam.bijection.BeamFragment;
+import com.jude.beam.bijection.RequiresPresenter;
+import com.jude.beam.expansion.list.BeamListFragment;
+import com.jude.beam.expansion.list.ListConfig;
+import com.jude.easyrecyclerview.adapter.BaseViewHolder;
+
+import java.util.Map;
 
 /**
  * Copyright (C) 2016
@@ -16,15 +17,16 @@ import com.jude.beam.bijection.BeamFragment;
  * @email: zhaocz2015@163.com
  * @date: 2016-08-24
  */
-public class KpiGridDataFragment extends BeamFragment {
+@RequiresPresenter(KpiGridDataPresenter.class)
+public class KpiGridDataFragment extends BeamListFragment<KpiGridDataPresenter, Map> {
 
-    private View rootView;
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public BaseViewHolder<Map> getViewHolder(ViewGroup parent, int viewType) {
+        return new KpiGridDataVHolder(parent);
+    }
 
-
-        return super.onCreateView(inflater, container, savedInstanceState);
+    @Override
+    public ListConfig getConfig() {
+        return super.getConfig().setNoMoreAble(false);
     }
 }

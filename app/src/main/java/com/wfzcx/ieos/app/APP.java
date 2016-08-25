@@ -34,6 +34,7 @@ public class APP extends Application {
             instance = this;
 
         JUtils.initialize(this);
+        JUtils.setDebug(true, "ieos-app");
         JFileManager.getInstance().init(this, Dir.values());
         Beam.init(this);
         Beam.setViewExpansionDelegateProvider(new ViewExpansionDelegateProvider() {
