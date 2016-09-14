@@ -94,4 +94,12 @@ public class AccountModel extends AbsModel {
         return mAccountSubject.getValue();
     }
 
+    public String getUsername(){
+        return (String) getAccount().get("username");
+    }
+
+    public String getUserCnname(){
+        return (String) getAccount().get("userCnname");
+    }
+
 }

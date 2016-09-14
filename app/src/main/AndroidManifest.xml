@@ -35,15 +35,28 @@
 
         <activity android:name=".module.main.MainActivity" />
 
-        <!-- 折线柱状图 -->
-        <activity android:name=".module.chart.KpiMixChartActivity" />
+        <!-- 宏观经济 -->
 
-        <!-- 饼图 -->
-        <activity android:name=".module.chart.KpiPieChartActivity" />
+        <!--全省区域分析-->
+        <activity android:name=".module.dz_macro.dz_macro_pro_region_activity" />
 
-        <!-- 表格 -->
-        <activity android:name=".module.chart.KpiGridChartActivity" />
+        <!--全市区域趋势分析-->
+        <activity android:name=".module.dz_macro.dz_macro_city_region_trend_activity" />
 
+        <!--全市行业分析-->
+        <activity android:name=".module.dz_macro.dz_macro_city_industry_activity" />
+
+        <!--原材料产业分析-->
+
+        <!--产业集群分析-->
+
+        <!--产业基地分析-->
+
+        <!--全省用电对比分析-->
+
+        <!--全市区域对比分析-->
+
+        <!--全市用电趋势分析-->
 
     </application>
 

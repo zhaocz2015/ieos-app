@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="8dp">
 
-    <ImageView
+    <com.github.siyamed.shapeimageview.RoundedImageView
         android:id="@+id/iv_menu_icon"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:src="@drawable/dzforeenterregion" />
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/dzforeenterregion"
+        app:siBorderColor="@color/colorPrimary"
+        app:siBorderWidth="1dp"
+        app:siRadius="6dp"
+        app:siSquare="true" />
 
     <TextView
         android:id="@+id/tv_menu_name"

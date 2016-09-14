@@ -90,7 +90,7 @@ public class LoginActivity extends BeamBaseActivity {
                             if (Boolean.valueOf(String.valueOf(rsMap.get("success")))) {
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();
-                            }else{
+                            } else {
                                 JUtils.Toast("登录失败，无效的用户名和密码");
                                 btnLogin.setEnabled(true);
                                 getExpansion().dismissProgressDialog();
@@ -128,7 +128,7 @@ public class LoginActivity extends BeamBaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!etIp.getText().toString().matches(IP_FORMULA)) {
+                if (etIp.getText().toString().split("\\.").length == 4 && !etIp.getText().toString().matches(IP_FORMULA)) {
                     etIp.requestFocus();
                     JUtils.Toast("请输入正确格式的IP地址");
                 }

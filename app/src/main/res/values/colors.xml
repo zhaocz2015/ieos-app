@@ -4,5 +4,10 @@
     <color name="colorPrimaryDark">#2196F3</color>
     <color name="colorAccent">#252326</color>
 
+    <color name="white">#fff</color>
     <color name="color_f7f7f9">#f7f7f9</color>
+
+
+    <color name="shadow_start">#80000000</color>
+    <color name="shadow_end">#00000000</color>
 </resources>

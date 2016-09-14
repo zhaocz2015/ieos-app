@@ -30,6 +30,13 @@ public class KpiServicePresenter extends BeamListFragmentPresenter<KpiServiceFra
     public void onRefresh() {
         ArrayList<Map> subMenus = (ArrayList<Map>) getView().getArguments().getSerializable("subMenus");
         Observable.just(subMenus)
+                .map(maps -> {
+                    for (Map m : maps) {
+                        m.put("pkg", getView().getArguments().getString("pkg"));
+                    }
+
+                    return maps;
+                })
                 .unsafeSubscribe(getRefreshSubscriber());
     }
 }

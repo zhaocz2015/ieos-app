@@ -75,6 +75,7 @@ public class MainActivity extends BeamBaseActivity {
             @Override
             public Fragment getItem(int position) {
                 Bundle b = new Bundle();
+                b.putString("pkg", (String) appMenus.get(position).get("code"));
                 b.putSerializable("subMenus", (ArrayList) appMenus.get(position).get("childrens"));
 
                 KpiServiceFragment fragment = new KpiServiceFragment();
