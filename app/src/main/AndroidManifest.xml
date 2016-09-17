@@ -62,10 +62,10 @@
         <activity android:name=".module.dz_macro.dz_macro_city_region_contrast_activity" />
 
         <!--全市用电趋势分析-->
-        <activity android:name=".module.dz_macro.dz_macro_city_elec_trend" />
+        <activity android:name=".module.dz_macro.dz_macro_city_elec_trend_activity" />
 
         <!-- 全市用电对比分析 -->
-        <activity android:name=".module.dz_macro.dz_macro_city_elec_contrast" />
+        <activity android:name=".module.dz_macro.dz_macro_city_elec_contrast_activity" />
 
         <!-- 调度企业 -->
 
@@ -104,8 +104,27 @@
         <!-- 订单分析 -->
         <activity android:name=".module.dz_product.dz_order_enter" />
 
+        <!-- 预测预警 -->
+
+        <!-- 调度企业区域预测 -->
+        <activity android:name=".module.dz_fore.dz_fore_enter_region" />
+
+        <!-- 调度企业行业预测 -->
+        <activity android:name=".module.dz_fore.dz_fore_enter_industry" />
+
+        <!-- 调度企业产业集群预测 -->
+        <activity android:name=".module.dz_fore.dz_fore_enter_ic" />
+
+        <!-- 调度企业产业基地预测 -->
+        <activity android:name=".module.dz_fore.dz_fore_enter_ib" />
+
         <!-- 绩效评价 -->
 
+        <!-- 县市区绩效评价 -->
+        <activity android:name=".module.dz_grad.dz_grad_region" />
+
+        <!-- 企业绩效评价 -->
+        <activity android:name=".module.dz_grad.dz_grad_enter" />
 
     </application>
 
