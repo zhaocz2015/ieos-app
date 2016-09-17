@@ -70,30 +70,30 @@
         <!-- 调度企业 -->
 
         <!-- 区域分析 -->
-        <activity android:name=".module.dz_enter.dz_macro_city_elec_contrast" />
+        <activity android:name=".module.dz_enter.dz_enter_region_activity" />
 
         <!-- 行业分析 -->
-        <activity android:name=".module.dz_enter.dz_enter_industry" />
+        <activity android:name=".module.dz_enter.dz_enter_industry_activity" />
 
         <!-- 原材料产业分析 -->
-        <activity android:name=".module.dz_enter.dz_enter_material" />
+        <activity android:name=".module.dz_enter.dz_enter_material_activity" />
 
         <!-- 产业集群分析 -->
-        <activity android:name=".module.dz_enter.dz_enter_ic" />
+        <activity android:name=".module.dz_enter.dz_enter_ic_activity" />
 
         <!-- 产业基地分析 -->
-        <activity android:name=".module.dz_enter.dz_enter_ib" />
+        <activity android:name=".module.dz_enter.dz_enter_ib_activity" />
 
         <!-- 综合趋势分析 -->
-        <activity android:name=".module.dz_enter.dz_enter_trend" />
+        <activity android:name=".module.dz_enter.dz_enter_trend_activity" />
 
         <!-- 重点企业 -->
-        <activity android:name=".module.dz_enter.dz_enter_key" />
+        <activity android:name=".module.dz_enter.dz_enter_key_activity" />
 
         <!-- 产品订单 -->
 
         <!-- 规上产品 -->
-        <activity android:name=".module.dz_product.dz_product_macro" />
+        <activity android:name=".module.dz_product.dz_product_macro_activity" />
 
         <!-- 产品分析 -->
         <activity android:name=".module.dz_product.dz_product_enter" />
@@ -107,16 +107,16 @@
         <!-- 预测预警 -->
 
         <!-- 调度企业区域预测 -->
-        <activity android:name=".module.dz_fore.dz_fore_enter_region" />
+        <!--<activity android:name=".module.dz_fore.dz_fore_enter_region" />-->
 
-        <!-- 调度企业行业预测 -->
-        <activity android:name=".module.dz_fore.dz_fore_enter_industry" />
+        <!--&lt;!&ndash; 调度企业行业预测 &ndash;&gt;-->
+        <!--<activity android:name=".module.dz_fore.dz_fore_enter_industry" />-->
 
-        <!-- 调度企业产业集群预测 -->
-        <activity android:name=".module.dz_fore.dz_fore_enter_ic" />
+        <!--&lt;!&ndash; 调度企业产业集群预测 &ndash;&gt;-->
+        <!--<activity android:name=".module.dz_fore.dz_fore_enter_ic" />-->
 
-        <!-- 调度企业产业基地预测 -->
-        <activity android:name=".module.dz_fore.dz_fore_enter_ib" />
+        <!--&lt;!&ndash; 调度企业产业基地预测 &ndash;&gt;-->
+        <!--<activity android:name=".module.dz_fore.dz_fore_enter_ib" />-->
 
         <!-- 绩效评价 -->
 
