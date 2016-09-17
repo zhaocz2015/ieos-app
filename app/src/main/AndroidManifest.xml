@@ -47,16 +47,65 @@
         <activity android:name=".module.dz_macro.dz_macro_city_industry_activity" />
 
         <!--原材料产业分析-->
+        <activity android:name=".module.dz_macro.dz_macro_city_material_activity" />
 
         <!--产业集群分析-->
+        <activity android:name=".module.dz_macro.dz_macro_city_ic_activity" />
 
         <!--产业基地分析-->
+        <activity android:name=".module.dz_macro.dz_macro_city_ib_activity" />
 
         <!--全省用电对比分析-->
+        <activity android:name=".module.dz_macro.dz_macro_pro_elec_contrast_activity" />
 
         <!--全市区域对比分析-->
+        <activity android:name=".module.dz_macro.dz_macro_city_region_contrast_activity" />
 
         <!--全市用电趋势分析-->
+        <activity android:name=".module.dz_macro.dz_macro_city_elec_trend" />
+
+        <!-- 全市用电对比分析 -->
+        <activity android:name=".module.dz_macro.dz_macro_city_elec_contrast" />
+
+        <!-- 调度企业 -->
+
+        <!-- 区域分析 -->
+        <activity android:name=".module.dz_enter.dz_macro_city_elec_contrast" />
+
+        <!-- 行业分析 -->
+        <activity android:name=".module.dz_enter.dz_enter_industry" />
+
+        <!-- 原材料产业分析 -->
+        <activity android:name=".module.dz_enter.dz_enter_material" />
+
+        <!-- 产业集群分析 -->
+        <activity android:name=".module.dz_enter.dz_enter_ic" />
+
+        <!-- 产业基地分析 -->
+        <activity android:name=".module.dz_enter.dz_enter_ib" />
+
+        <!-- 综合趋势分析 -->
+        <activity android:name=".module.dz_enter.dz_enter_trend" />
+
+        <!-- 重点企业 -->
+        <activity android:name=".module.dz_enter.dz_enter_key" />
+
+        <!-- 产品订单 -->
+
+        <!-- 规上产品 -->
+        <activity android:name=".module.dz_product.dz_product_macro" />
+
+        <!-- 产品分析 -->
+        <activity android:name=".module.dz_product.dz_product_enter" />
+
+        <!-- 原材料分析 -->
+        <activity android:name=".module.dz_product.dz_material_enter" />
+
+        <!-- 订单分析 -->
+        <activity android:name=".module.dz_product.dz_order_enter" />
+
+        <!-- 绩效评价 -->
+
 
     </application>
 
