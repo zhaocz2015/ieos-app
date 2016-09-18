@@ -1,5 +1,6 @@
 package com.wfzcx.ieos.module.dz_product;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,12 +14,20 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.jude.beam.expansion.BeamBaseActivity;
 import com.jude.utils.JUtils;
 import com.wfzcx.ieos.R;
 import com.wfzcx.ieos.data.model.AccountModel;
 import com.wfzcx.ieos.data.model.KpiDataModel;
+import com.wfzcx.ieos.data.service.ErrorTransform;
 import com.wx.wheelview.adapter.ArrayWheelAdapter;
 import com.wx.wheelview.widget.WheelView;
 
@@ -41,13 +50,13 @@ import okhttp3.RequestBody;
  * @email: zhaocz2015@163.com
  * @date: 2016-09-13
  */
-public class dz_product_macro_activity extends BeamBaseActivity {
+public class dz_product_enter_activity extends BeamBaseActivity {
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
 
     @BindView(R.id.chart)
-    CombinedChart mChart;
+    PieChart mChart;
 
     @BindView(R.id.tabs_kpi)
     TabLayout mTabLayout;
@@ -56,9 +65,9 @@ public class dz_product_macro_activity extends BeamBaseActivity {
     ViewPager mViewPager;
 
     private String jsonStr = "{" +
-            "label: '指标'," +
-            "keys:  ['13']," +
-            "values: ['主营业务收入']" +
+            "label: '类型'," +
+            "keys:  ['hb', 'tb']," +
+            "values: ['环比', '同比']" +
             "}";
 
     private JSONObject jsonObj;
@@ -66,15 +75,15 @@ public class dz_product_macro_activity extends BeamBaseActivity {
     private String curNd;
     private String curYd;
 
+    private String curKpiName = "工业增加值";
+
     private List<Map> rsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dz_macro_pro_region);
+        setContentView(R.layout.dz_product_enter);
         ButterKnife.bind(this);
-
-        mChart.setVisibility(View.GONE);
 
         jsonObj = JSON.parseObject(jsonStr);
 
@@ -112,6 +121,10 @@ public class dz_product_macro_activity extends BeamBaseActivity {
 
                         mViewPager.setCurrentItem(kpiWheelView.getCurrentPosition());
                     })
+                    .negativeText("取消")
+                    .onNegative((dialog1, which1) -> {
+                        JUtils.Toast("取消");
+                    })
                     .show();
 
         }
@@ -147,13 +160,49 @@ public class dz_product_macro_activity extends BeamBaseActivity {
         monthWheelView.setSelection(Integer.valueOf(curYd) - 1);
 
 
+        int curIndex = 0;
+        List<String> kpis = jsonObj.getJSONArray("values").toJavaObject(List.class);
+        for (int i = 0; i < kpis.size(); i++) {
+            if (curKpiName.equals(kpis.get(i))) {
+                curIndex = i;
+                break;
+            }
+        }
         kpiWheelView = (WheelView) wheelView.findViewById(R.id.wv_kpi);
-        kpiWheelView.setVisibility(View.GONE);
+        kpiWheelView.setSkin(WheelView.Skin.Common);
+        kpiWheelView.setWheelAdapter(new ArrayWheelAdapter(this));
+        kpiWheelView.setWheelData(kpis);
+        kpiWheelView.setSelection(curIndex);
 
     }
 
     private void renderView() {
+        renderChartView();
         renderViewPager();
+    }
+
+    private void renderChartView() {
+
+        mChart.setDescription("");
+        mChart.setUsePercentValues(true);
+        mChart.setExtraOffsets(5, 10, 5, 5);
+
+        mChart.setDragDecelerationFrictionCoef(0.95f);
+
+        mChart.setExtraOffsets(20.f, 0.f, 20.f, 0.f);
+
+        mChart.setDrawHoleEnabled(false);
+
+        mChart.setRotationAngle(0);
+        mChart.setRotationEnabled(true);
+        mChart.setHighlightPerTapEnabled(true);
+
+        mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+
+        Legend l = mChart.getLegend();
+        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
+        l.setEnabled(true);
+
     }
 
     private void renderViewPager() {
@@ -166,7 +215,7 @@ public class dz_product_macro_activity extends BeamBaseActivity {
                 Bundle b = new Bundle();
                 b.putSerializable("rsList", (ArrayList) rsList);
 
-                dz_product_macro_table fragment = new dz_product_macro_table();
+                dz_product_enter_table fragment = new dz_product_enter_table();
                 fragment.setArguments(b);
 
                 return fragment;
@@ -188,7 +237,6 @@ public class dz_product_macro_activity extends BeamBaseActivity {
             }
         });
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.setVisibility(View.GONE);
 
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -211,6 +259,7 @@ public class dz_product_macro_activity extends BeamBaseActivity {
     }
 
     private void renderData(int pos) {
+        curKpiName = (String) jsonObj.getJSONArray("values").get(pos);
         getExpansion().showProgressDialog("正在加载数据");
 
         if (curNd != null && curYd != null) {
@@ -218,16 +267,17 @@ public class dz_product_macro_activity extends BeamBaseActivity {
             return;
         }
 
-        String whereSql = " 1=1 ";
+        String whereSql = " and f.ggxh = ep.specifications and f.fflag = 1";
         if (!AccountModel.getInstance().getUsername().equals("dzs")) {
-            whereSql = "1=1')";
+            whereSql = "  and f.ggxh = ep.specifications and f.fflag = 1 and e.countyid in ( select s.regionid from ieos.sys_user s where s.username='" + AccountModel.getInstance().getUsername() + "')";
         }
 
         // 首次查询当前数据可查询的日期时间
         Map<String, RequestBody> params = new HashMap<>();
-        params.put("type", RequestBody.create(MediaType.parse("text/plain"), "dz_gsproduct_lastyearmonth"));
+        params.put("type", RequestBody.create(MediaType.parse("text/plain"), "dzlastyearmonth3"));
+        params.put("wheresql", RequestBody.create(MediaType.parse("text/plain"), whereSql));
         KpiDataModel.getInstance().getKpiData(params)
-                .doOnTerminate(() -> getExpansion().dismissProgressDialog())
+                .compose(new ErrorTransform<>())
                 .subscribe(rsDates -> {
                     if (rsDates.isEmpty()) {
                         JUtils.Toast("暂无数据");
@@ -247,10 +297,15 @@ public class dz_product_macro_activity extends BeamBaseActivity {
 
     private void renderData(String kpi) {
         Map<String, RequestBody> params = new HashMap<>();
-        toolbarTitle.setText("德州市" + curNd + "年" + curYd + "月规上产品分析");
+        toolbarTitle.setText(AccountModel.getInstance().getUserCnname() + curNd + "年" + curYd + "月调度产品指数分析(单位：种)");
 
-        params.put("type", RequestBody.create(MediaType.parse("text/plain"), "dz_product_macro_sql"));
+        params.put("type", RequestBody.create(MediaType.parse("text/plain"), "dz_product_enter_sql"));
         params.put("month_id", RequestBody.create(MediaType.parse("text/plain"), curNd + "-" + curYd));
+        params.put("type1", RequestBody.create(MediaType.parse("text/plain"), kpi));
+
+        if (!AccountModel.getInstance().getUsername().equals("dzs")) {
+            params.put("whereEnterSql", RequestBody.create(MediaType.parse("text/plain"), " and e.countyid in ( select s.regionid from ieos.sys_user s where s.username='" + AccountModel.getInstance().getUsername() + "')"));
+        }
 
         KpiDataModel.getInstance().getKpiData(params)
                 .subscribe(rsList -> {
@@ -258,6 +313,7 @@ public class dz_product_macro_activity extends BeamBaseActivity {
                         JUtils.Toast("暂无数据");
                     } else {
                         this.rsList = rsList;
+                        renderChartData(0);
                         renderPagerData();
                     }
 
@@ -265,9 +321,54 @@ public class dz_product_macro_activity extends BeamBaseActivity {
                 });
     }
 
+    private String[] pieTitles = {"上涨数", "持平数", "下降数"};
+    private String[] pieLabels = {"UpNum", "CpNum", "DownNum"};
+
+    public void renderChartData(int index) {
+        // 重新绘制X轴
+
+        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+        for (int i = 0; i < pieLabels.length; i++) {
+            entries.add(new PieEntry(Float.valueOf(String.valueOf(rsList.get(index).get(pieLabels[i]))), pieTitles[i]));
+        }
+
+        PieDataSet dataSet = new PieDataSet(entries, (String) rsList.get(index).get("ROWSNAME"));
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+
+        for (int c : ColorTemplate.VORDIPLOM_COLORS)
+            colors.add(c);
+        for (int c : ColorTemplate.JOYFUL_COLORS)
+            colors.add(c);
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            colors.add(c);
+        for (int c : ColorTemplate.LIBERTY_COLORS)
+            colors.add(c);
+        for (int c : ColorTemplate.PASTEL_COLORS)
+            colors.add(c);
+        colors.add(ColorTemplate.getHoloBlue());
+
+        dataSet.setColors(colors);
+
+        dataSet.setValueLinePart1OffsetPercentage(80.f);
+        dataSet.setValueLinePart1Length(0.2f);
+        dataSet.setValueLinePart2Length(0.4f);
+        dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+
+        PieData data = new PieData(dataSet);
+        data.setValueFormatter(new PercentFormatter());
+        data.setValueTextSize(11f);
+        data.setValueTextColor(Color.BLACK);
+
+        mChart.setData(data);
+        mChart.invalidate();
+    }
 
     private void renderPagerData() {
         mViewPager.getAdapter().notifyDataSetChanged();
     }
+
 
 }

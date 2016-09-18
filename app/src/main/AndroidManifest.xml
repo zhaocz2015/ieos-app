@@ -96,7 +96,7 @@
         <activity android:name=".module.dz_product.dz_product_macro_activity" />
 
         <!-- 产品分析 -->
-        <!--<activity android:name=".module.dz_product.dz_product_enter" />-->
+        <activity android:name=".module.dz_product.dz_product_enter_activity" />
 
         <!--&lt;!&ndash; 原材料分析 &ndash;&gt;-->
         <!--<activity android:name=".module.dz_product.dz_material_enter" />-->

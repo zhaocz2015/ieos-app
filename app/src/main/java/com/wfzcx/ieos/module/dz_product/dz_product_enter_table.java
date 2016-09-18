@@ -28,15 +28,15 @@ import butterknife.ButterKnife;
  * @email: zhaocz2015@163.com
  * @date: 2016-09-13
  */
-public class dz_product_macro_table extends BeamFragment {
+public class dz_product_enter_table extends BeamFragment {
 
     private View rootView;
 
     @BindView(R.id.table)
     TableFixHeaders table;
 
-    private String[] headerTitles = {"产品名称", "单位", "累计", "累计增幅"};
-    private String[] columnLabels = {"pName", "pUnit", "yieldYtd", "yieldChg"};
+    private String[] headerTitles = {"指标名称", "上涨数", "持平数", "下降数"};
+    private String[] columnLabels = {"ROWSNAME", "UpNum", "CpNum", "DownNum"};
 
     @Nullable
     @Override
@@ -47,6 +47,9 @@ public class dz_product_macro_table extends BeamFragment {
 
             ArrayList<Map> rsList = (ArrayList<Map>) getArguments().getSerializable("rsList");
             table.setAdapter(new MyAdapter(getContext(), rsList));
+            table.setOnCellClickLisenter((row, column) -> {
+                ((dz_product_enter_activity) getActivity()).renderChartData(row);
+            });
         }
         return rootView;
     }
@@ -120,6 +123,8 @@ public class dz_product_macro_table extends BeamFragment {
                 default:
                     throw new RuntimeException("wtf?");
             }
+
+
             return layoutResource;
         }
 
