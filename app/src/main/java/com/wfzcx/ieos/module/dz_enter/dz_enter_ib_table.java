@@ -35,7 +35,7 @@ public class dz_enter_ib_table extends BeamFragment {
     @BindView(R.id.table)
     TableFixHeaders table;
 
-    private String[] headerTitles = {"产业基地", "企业户数", "本月", "本月增幅", "累计", "累计增幅"}; // 累计同比
+    private String[] headerTitles = {"产业基地", "企业户数", "本月", "本月增幅", "累计", "累计增幅"};
     private String[] columnLabels = {"dimname", "entcount", "valCm", "valCmPy", "valAcc", "valAccPy"};
 
     int curIndex = 0;
@@ -46,14 +46,6 @@ public class dz_enter_ib_table extends BeamFragment {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_table_grid, container, false);
             ButterKnife.bind(this, rootView);
-
-            curIndex = getArguments().getInt("index", 0);
-            if (curIndex != 0) {
-                headerTitles[2] = "累计同比";
-            } else {
-                headerTitles[2] = "累计增幅";
-            }
-
 
             ArrayList<Map> rsList = (ArrayList<Map>) getArguments().getSerializable("rsList");
             table.setAdapter(new MyAdapter(getContext(), rsList));
@@ -84,7 +76,7 @@ public class dz_enter_ib_table extends BeamFragment {
 
         @Override
         public int getColumnCount() {
-            return rsList == null ? 0 : headerTitles.length - 1;
+            return rsList == null ? 0 : columnLabels.length - 1;
         }
 
         @Override

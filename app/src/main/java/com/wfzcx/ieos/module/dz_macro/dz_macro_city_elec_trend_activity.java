@@ -350,16 +350,16 @@ public class dz_macro_city_elec_trend_activity extends BeamBaseActivity {
     private void renderChartData(List<Map> rsList) {
         // 重新绘制X轴
         mChart.getXAxis().setLabelCount(rsList.size());
-        mChart.getXAxis().setAxisMaxValue(rsList.size());
+        mChart.getXAxis().setAxisMaxValue(rsList.size() + 1);
         mChart.getXAxis().setValueFormatter(new AxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                int index = (int) value % rsList.size();
-                if (index == 0 || index == rsList.size()) {
+                int index = (int) value % (rsList.size() + 1);
+                if (index == 0 || index == rsList.size() + 1) {
                     return "";
                 }
 
-                return rsList.get(index).get("timeline").toString();
+                return rsList.get(index - 1).get("timeline").toString();
             }
 
             @Override
@@ -385,8 +385,8 @@ public class dz_macro_city_elec_trend_activity extends BeamBaseActivity {
 
         ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
 
-        for (int index = 0; index < rsList.size() - 1; index++) {
-            entries.add(new BarEntry(index + 1, Float.valueOf(String.valueOf(rsList.get(index + 1).get("valAcc")))));
+        for (int index = 0; index < rsList.size(); index++) {
+            entries.add(new BarEntry(index + 1, Float.valueOf(String.valueOf(rsList.get(index).get("valAcc")))));
         }
 
         BarDataSet set = new BarDataSet(entries, "累计(万千瓦时)");
@@ -410,8 +410,8 @@ public class dz_macro_city_elec_trend_activity extends BeamBaseActivity {
 
         ArrayList<Entry> entries = new ArrayList<Entry>();
 
-        for (int index = 0; index < rsList.size() - 1; index++)
-            entries.add(new Entry(index + 1f, Float.valueOf(String.valueOf(rsList.get(index + 1).get("valAccPy")))));
+        for (int index = 0; index < rsList.size(); index++)
+            entries.add(new Entry(index + 1f, Float.valueOf(String.valueOf(rsList.get(index).get("valAccPy")))));
 
         LineDataSet set = new LineDataSet(entries, "增幅(%)");
         set.setColor(Color.rgb(255, 0, 0));

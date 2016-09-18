@@ -77,7 +77,14 @@ public class dz_enter_trend_activity extends BeamBaseActivity {
             "values: ['工业总产值','主营业务收入', '利润总额','实现利税']" +
             "}";
 
+    private String dimStr = "{" +
+            "label: '维度'," +
+            "keys:  ['65', '63','104', '67','dim_02', 'dim_01','dim_03','region']," +
+            "values: ['基地重点', '基地龙头', '重点培植','科技成长','产业基地','产业集群','原材料产业','区域']" +
+            "}";
+
     private JSONObject jsonObj;
+    private JSONObject dimObj;
 
     private String curNd;
     private String curYd;
@@ -95,6 +102,7 @@ public class dz_enter_trend_activity extends BeamBaseActivity {
         ButterKnife.bind(this);
 
         jsonObj = JSON.parseObject(jsonStr);
+        dimObj = JSON.parseObject(dimStr);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -326,24 +334,17 @@ public class dz_enter_trend_activity extends BeamBaseActivity {
 
     private void renderData(String kpi) {
         Map<String, RequestBody> params = new HashMap<>();
-        toolbarTitle.setText(AccountModel.getInstance().getUserCnname() + "运行趋势分析(万元、%)");
+        toolbarTitle.setText(AccountModel.getInstance().getUserCnname() + "基地重点运行趋势分析(万元、%)");
 
         params.put("type", RequestBody.create(MediaType.parse("text/plain"), "dz_trend_sql"));
         params.put("start_time", RequestBody.create(MediaType.parse("text/plain"), "M" + (Integer.valueOf(curNd) - 1) + "-" + curYd));
         params.put("end_time", RequestBody.create(MediaType.parse("text/plain"), "M" + curNd + "-" + curYd));
         params.put("target_id", RequestBody.create(MediaType.parse("text/plain"), kpi));
 
-
-//        { //分析趋势维度
-//            label: '维度',
-//                    keys:  ['65', '63','104', '67','dim_02', 'dim_01','dim_03','region'],
-//            values: ['基地重点', '基地龙头', '重点培植','科技成长','产业基地','产业集群','原材料产业','区域']
-//        }
-
         int dimIndex = 0;
         String whereEntSql = "";
         if (dimIndex <= 3) {
-            whereEntSql = " and f.entid in (select e.entid from ieos.joc_ent_dim e where e.classid = '" + dimIndex + "')";
+            whereEntSql = " and f.entid in (select e.entid from ieos.joc_ent_dim e where e.classid = '" + dimObj.getJSONArray("keys").get(dimIndex) + "')";
         } else if (dimIndex > 3 && dimIndex <= 6) {
             whereEntSql = " and  " + dimIndex + " is not null ";
         }
@@ -352,7 +353,7 @@ public class dz_enter_trend_activity extends BeamBaseActivity {
             whereEntSql += " and f.regionid in ( select s.regionid from ieos.sys_user s where s.username='" + AccountModel.getInstance().getUsername() + "') ";
         }
 
-        params.put("whereEnterSql", RequestBody.create(MediaType.parse("text/plain"), " and b.regionid = ( select s.regionid from ieos.sys_user s where s.username='" + AccountModel.getInstance().getUsername() + "') "));
+        params.put("whereEnterSql", RequestBody.create(MediaType.parse("text/plain"), whereEntSql));
 
         KpiDataModel.getInstance().getKpiData(params)
                 .subscribe(rsList -> {
@@ -370,7 +371,7 @@ public class dz_enter_trend_activity extends BeamBaseActivity {
 
     private void renderChartData(List<Map> rsList) {
         // 重新绘制X轴
-        mChart.getXAxis().setLabelCount(rsList.size());
+        mChart.getXAxis().setLabelCount(rsList.size() + 1);
         mChart.getXAxis().setAxisMaxValue(rsList.size() + 1);
         mChart.getXAxis().setValueFormatter(new AxisValueFormatter() {
             @Override
