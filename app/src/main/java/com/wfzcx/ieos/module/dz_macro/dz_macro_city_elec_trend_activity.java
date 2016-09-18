@@ -269,6 +269,7 @@ public class dz_macro_city_elec_trend_activity extends BeamBaseActivity {
             }
         });
         mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setVisibility(View.GONE);
 
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -330,8 +331,7 @@ public class dz_macro_city_elec_trend_activity extends BeamBaseActivity {
         params.put("type", RequestBody.create(MediaType.parse("text/plain"), "city_macro_ele_thrend_sql"));
         params.put("bmonth_id", RequestBody.create(MediaType.parse("text/plain"), (Integer.valueOf(curNd) - 1) + "-" + curYd));
         params.put("emonth_id", RequestBody.create(MediaType.parse("text/plain"), curNd + "-" + curYd));
-        params.put("region_id", RequestBody.create(MediaType.parse("text/plain"), curNd + "-" + curYd));
-        params.put("whereSql", RequestBody.create(MediaType.parse("text/plain"), " and f.regionid = ( select s.regionid from ieos.sys_user s where s.username='" + AccountModel.getInstance().getUsername() + "' "));
+        params.put("whereSql", RequestBody.create(MediaType.parse("text/plain"), " and f.regionid = ( select s.regionid from ieos.sys_user s where s.username='" + AccountModel.getInstance().getUsername() + "') "));
 
         KpiDataModel.getInstance().getKpiData(params)
                 .subscribe(rsList -> {

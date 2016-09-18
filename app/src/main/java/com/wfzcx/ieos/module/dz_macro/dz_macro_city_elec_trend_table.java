@@ -64,7 +64,7 @@ public class dz_macro_city_elec_trend_table extends BeamFragment {
             this.rsList = rsList;
 
             width = JUtils.dip2px(100);
-            height = JUtils.dip2px(30);
+            height = JUtils.dip2px(40);
         }
 
         @Override
@@ -74,7 +74,7 @@ public class dz_macro_city_elec_trend_table extends BeamFragment {
 
         @Override
         public int getColumnCount() {
-            return rsList == null ? 0 : rsList.get(0).size() - 1;
+            return rsList == null ? 0 : columnLabels.length - 1;
         }
 
         @Override

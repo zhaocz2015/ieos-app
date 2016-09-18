@@ -268,6 +268,7 @@ public class dz_macro_pro_elec_contrast_activity extends BeamBaseActivity {
             }
         });
         mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setVisibility(View.GONE);
 
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

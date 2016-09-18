@@ -340,7 +340,8 @@ public class dz_macro_city_region_contrast_activity extends BeamBaseActivity {
                         JUtils.Toast("暂无数据");
                     } else {
                         this.rsList = rsList;
-                        renderChartData(rsList);
+
+                        renderChartData();
                         renderPagerData();
                     }
 
@@ -348,19 +349,20 @@ public class dz_macro_city_region_contrast_activity extends BeamBaseActivity {
                 });
     }
 
-    private void renderChartData(List<Map> rsList) {
+    private void renderChartData() {
+
         // 重新绘制X轴
         mChart.getXAxis().setLabelCount(rsList.size());
-        mChart.getXAxis().setAxisMaxValue(rsList.size() + 1);
+        mChart.getXAxis().setAxisMaxValue(rsList.size());
         mChart.getXAxis().setValueFormatter(new AxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                int index = (int) value % (rsList.size() + 1);
-                if (index == 0) {
+                int index = (int) value % (rsList.size());
+                if (index == 0 || index == rsList.size()) {
                     return "";
                 }
 
-                return rsList.get(index - 1).get("timeline").toString();
+                return rsList.get(index).get("name").toString();
             }
 
             @Override
@@ -386,7 +388,7 @@ public class dz_macro_city_region_contrast_activity extends BeamBaseActivity {
 
         ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
 
-        for (int index = 0; index < rsList.size(); index++) {
+        for (int index = 0; index < rsList.size()-1; index++) {
             entries.add(new BarEntry(index + 1, Float.valueOf(String.valueOf(rsList.get(index).get("valAcc")))));
         }
 
@@ -411,7 +413,7 @@ public class dz_macro_city_region_contrast_activity extends BeamBaseActivity {
 
         ArrayList<Entry> entries = new ArrayList<Entry>();
 
-        for (int index = 0; index < rsList.size(); index++)
+        for (int index = 0; index < rsList.size()-1; index++)
             entries.add(new Entry(index + 1, Float.valueOf(String.valueOf(rsList.get(index).get("valAccPy")))));
 
         LineDataSet set = new LineDataSet(entries, curKpiName + "-增幅(%)");

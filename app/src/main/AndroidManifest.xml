@@ -96,13 +96,13 @@
         <activity android:name=".module.dz_product.dz_product_macro_activity" />
 
         <!-- 产品分析 -->
-        <activity android:name=".module.dz_product.dz_product_enter" />
+        <!--<activity android:name=".module.dz_product.dz_product_enter" />-->
 
-        <!-- 原材料分析 -->
-        <activity android:name=".module.dz_product.dz_material_enter" />
+        <!--&lt;!&ndash; 原材料分析 &ndash;&gt;-->
+        <!--<activity android:name=".module.dz_product.dz_material_enter" />-->
 
-        <!-- 订单分析 -->
-        <activity android:name=".module.dz_product.dz_order_enter" />
+        <!--&lt;!&ndash; 订单分析 &ndash;&gt;-->
+        <!--<activity android:name=".module.dz_product.dz_order_enter" />-->
 
         <!-- 预测预警 -->
 
@@ -121,10 +121,10 @@
         <!-- 绩效评价 -->
 
         <!-- 县市区绩效评价 -->
-        <activity android:name=".module.dz_grad.dz_grad_region" />
+        <!--<activity android:name=".module.dz_grad.dz_grad_region" />-->
 
-        <!-- 企业绩效评价 -->
-        <activity android:name=".module.dz_grad.dz_grad_enter" />
+        <!--&lt;!&ndash; 企业绩效评价 &ndash;&gt;-->
+        <!--<activity android:name=".module.dz_grad.dz_grad_enter" />-->
 
     </application>
 

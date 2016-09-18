@@ -74,7 +74,7 @@ public class dz_macro_pro_elec_contrast_table extends BeamFragment {
 
         @Override
         public int getColumnCount() {
-            return rsList == null ? 0 : rsList.get(0).size() - 1;
+            return rsList == null ? 0 : columnLabels.length - 1;
         }
 
         @Override

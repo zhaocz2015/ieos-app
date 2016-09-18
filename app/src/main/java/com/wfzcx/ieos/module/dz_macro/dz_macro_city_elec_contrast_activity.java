@@ -269,6 +269,7 @@ public class dz_macro_city_elec_contrast_activity extends BeamBaseActivity {
             }
         });
         mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setVisibility(View.GONE);
 
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -325,7 +326,7 @@ public class dz_macro_city_elec_contrast_activity extends BeamBaseActivity {
     private void renderData(String kpi) {
 
         Map<String, RequestBody> params = new HashMap<>();
-        toolbarTitle.setText(AccountModel.getInstance().getUserCnname() + curNd  + "年" + curYd+ "月" + "工业用电对比分析(万千瓦时、%)");
+        toolbarTitle.setText(AccountModel.getInstance().getUserCnname() + curNd + "年" + curYd + "月" + "工业用电对比分析(万千瓦时、%)");
 
         params.put("type", RequestBody.create(MediaType.parse("text/plain"), "city_contrast_elec_sql"));
         params.put("month_id", RequestBody.create(MediaType.parse("text/plain"), curNd + "-" + curYd));
@@ -336,7 +337,7 @@ public class dz_macro_city_elec_contrast_activity extends BeamBaseActivity {
                         JUtils.Toast("暂无数据");
                     } else {
                         this.rsList = rsList;
-                        renderChartData(rsList);
+                        renderChartData();
                         renderPagerData();
                     }
 
@@ -344,15 +345,15 @@ public class dz_macro_city_elec_contrast_activity extends BeamBaseActivity {
                 });
     }
 
-    private void renderChartData(List<Map> rsList) {
+    private void renderChartData() {
         // 重新绘制X轴
-        mChart.getXAxis().setLabelCount(rsList.size());
-        mChart.getXAxis().setAxisMaxValue(rsList.size());
+        mChart.getXAxis().setLabelCount(rsList.size() - 2);
+        mChart.getXAxis().setAxisMaxValue(rsList.size() - 2);
         mChart.getXAxis().setValueFormatter(new AxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                int index = (int) value % rsList.size();
-                if (index == 0 || index == rsList.size()) {
+                int index = (int) value % (rsList.size() - 2);
+                if (index == 0 || index == rsList.size() - 2) {
                     return "";
                 }
 
@@ -382,7 +383,7 @@ public class dz_macro_city_elec_contrast_activity extends BeamBaseActivity {
 
         ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
 
-        for (int index = 0; index < rsList.size() - 1; index++) {
+        for (int index = 0; index < rsList.size() - 3; index++) {
             entries.add(new BarEntry(index + 1, Float.valueOf(String.valueOf(rsList.get(index + 1).get("valAcc")))));
         }
 
@@ -407,7 +408,7 @@ public class dz_macro_city_elec_contrast_activity extends BeamBaseActivity {
 
         ArrayList<Entry> entries = new ArrayList<Entry>();
 
-        for (int index = 0; index < rsList.size() - 1; index++)
+        for (int index = 0; index < rsList.size() - 3; index++)
             entries.add(new Entry(index + 1f, Float.valueOf(String.valueOf(rsList.get(index + 1).get("valAccPy")))));
 
         LineDataSet set = new LineDataSet(entries, "增幅(%)");

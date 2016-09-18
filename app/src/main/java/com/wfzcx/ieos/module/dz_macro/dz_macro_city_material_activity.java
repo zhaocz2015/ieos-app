@@ -38,6 +38,7 @@ import com.wx.wheelview.adapter.ArrayWheelAdapter;
 import com.wx.wheelview.widget.WheelView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
@@ -343,7 +344,7 @@ public class dz_macro_city_material_activity extends BeamBaseActivity {
                     } else {
                         this.rsList = rsList;
 
-                        List<Map> cloneList = new ArrayList();
+                        List cloneList = new ArrayList(Arrays.asList(new Object[rsList.size()]));
                         Collections.copy(cloneList, rsList);
                         renderChartData(cloneList);
                         renderPagerData();
