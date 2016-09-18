@@ -62,7 +62,15 @@ public class dz_enter_key_activity extends BeamBaseActivity {
             "values: ['主营业务收入', '利润总额','实现利税','资产总计']" +
             "}";
 
+    private String areaStr = "{" +
+            "label: '区域'," +
+            "keys:  ['15', '19','20', '21','22','23','24','25','26','27','28','29','30','31','32','166','167']," +
+            "names: ['dzs','dcq','jkq','yhq','lcq','njx','jqx','lyx','qhx','pyx','xjx','wqx','lls','ycx']," +
+            "values: ['德州市', '德城区', '经济开发区','运河开发区','陵城区','宁津县','庆云县','临邑县','齐河县','平原县','夏津县','武城县','乐陵市','禹城市']" +
+            "}";
+
     private JSONObject jsonObj;
+    private JSONObject areaObj;
 
     private String curNd;
     private String curYd;
@@ -80,6 +88,7 @@ public class dz_enter_key_activity extends BeamBaseActivity {
         mChart.setVisibility(View.GONE);
 
         jsonObj = JSON.parseObject(jsonStr);
+        areaObj = JSON.parseObject(areaStr);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -262,25 +271,20 @@ public class dz_enter_key_activity extends BeamBaseActivity {
 
     private void renderData(String kpi) {
         Map<String, RequestBody> params = new HashMap<>();
-        toolbarTitle.setText(curNd + "年" + curYd + "月重点企业效益简况(万元、%)");
+        toolbarTitle.setText(AccountModel.getInstance().getUserCnname() + curNd + "年" + curYd + "月重点企业效益简况(万元、%)");
 
         params.put("type", RequestBody.create(MediaType.parse("text/plain"), "dz_trend_key_sql"));
         params.put("month_id", RequestBody.create(MediaType.parse("text/plain"), "M" + curNd + "-" + curYd));
+        params.put("nd", RequestBody.create(MediaType.parse("text/plain"), curNd));
         params.put("targetId", RequestBody.create(MediaType.parse("text/plain"), kpi));
 
-//        {
-//            label: '区域',
-//                    keys: ['15', '19','20', '21','22','23','24','25','26','27','28','29','30','31','32','166','167'],
-//            names: ['dzs','dcq','jkq','yhq','lcq','njx','jqx','lyx','qhx','pyx','xjx','wqx','lls','ycx'],
-//            values:  ['德州市', '德城区', '经济开发区','运河开发区','陵城区','宁津县','庆云县','临邑县','齐河县','平原县','夏津县','武城县','乐陵市','禹城市']
-//
-//        }
-
-        if (!AccountModel.getInstance().getUsername().equals("dzs")) {
-            params.put("whereEnterSql", RequestBody.create(MediaType.parse("text/plain"), " and tt.countyid = " + 15 + " "));
+        int areaIndex = areaObj.getJSONArray("keys").getIntValue(0);
+        if (areaIndex != 15) {
+            params.put("whereEnterSql", RequestBody.create(MediaType.parse("text/plain"), " and tt.countyid = " + areaIndex + " "));
         }
 
         KpiDataModel.getInstance().getKpiData(params)
+                .doOnTerminate(() -> getExpansion().dismissProgressDialog())
                 .subscribe(rsList -> {
                     if (rsList.isEmpty()) {
                         JUtils.Toast("暂无数据");

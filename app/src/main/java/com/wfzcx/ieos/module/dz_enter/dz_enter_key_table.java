@@ -35,8 +35,8 @@ public class dz_enter_key_table extends BeamFragment {
     @BindView(R.id.table)
     TableFixHeaders table;
 
-    private String[] headerTitles = {"时间", "企业户数", "本月", "本月增幅", "累计", "累计增幅"};
-    private String[] columnLabels = {"timeid", "entCount", "valCm", "valCmPy", "valAcc", "valAccPy"};
+    private String[] headerTitles = {"企业名称", "本期累计", "累计增幅"};
+    private String[] columnLabels = {"name", "valAcc", "valAccPy"};
 
     @Nullable
     @Override
