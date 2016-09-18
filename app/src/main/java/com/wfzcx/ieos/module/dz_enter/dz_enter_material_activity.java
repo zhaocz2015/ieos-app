@@ -301,7 +301,7 @@ public class dz_enter_material_activity extends BeamBaseActivity {
 
         String whereSql = " b.dscode='DIRECTRPT' and b.dim_03 is not null and b.targetid = 13 ";
         if (!AccountModel.getInstance().getUsername().equals("dzs")) {
-            whereSql = " b.dscode='DIRECTRPT' and b.dim_03 is not null and b.targetid = 13 and b.regionid = ( select s.regionid from ieos.sys_user s where s.username='" + AccountModel.getInstance().getUsername() + "' ";
+            whereSql = " b.dscode='DIRECTRPT' and b.dim_03 is not null and b.targetid = 13 and b.regionid = ( select s.regionid from ieos.sys_user s where s.username='" + AccountModel.getInstance().getUsername() + "') ";
         }
 
         // 首次查询当前数据可查询的日期时间
@@ -337,7 +337,7 @@ public class dz_enter_material_activity extends BeamBaseActivity {
         params.put("targetId", RequestBody.create(MediaType.parse("text/plain"), kpi));
 
         if (!AccountModel.getInstance().getUsername().equals("dzs")) {
-            params.put("whereEnterSql", RequestBody.create(MediaType.parse("text/plain"), " and b.regionid = ( select s.regionid from ieos.sys_user s where s.username='" + AccountModel.getInstance().getUsername() + "' "));
+            params.put("whereEnterSql", RequestBody.create(MediaType.parse("text/plain"), " and b.regionid = ( select s.regionid from ieos.sys_user s where s.username='" + AccountModel.getInstance().getUsername() + "') "));
         }
 
         KpiDataModel.getInstance().getKpiData(params)
@@ -359,16 +359,16 @@ public class dz_enter_material_activity extends BeamBaseActivity {
 
         // 重新绘制X轴
         mChart.getXAxis().setLabelCount(rsList.size());
-        mChart.getXAxis().setAxisMaxValue(rsList.size() + 1);
+        mChart.getXAxis().setAxisMaxValue(rsList.size());
         mChart.getXAxis().setValueFormatter(new AxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                int index = (int) value % (rsList.size() + 1);
+                int index = (int) value % rsList.size();
                 if (index == 0) {
                     return "";
                 }
 
-                return rsList.get(index - 1).get("dimname").toString();
+                return rsList.get(index).get("dimname").toString();
             }
 
             @Override
@@ -394,8 +394,8 @@ public class dz_enter_material_activity extends BeamBaseActivity {
 
         ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
 
-        for (int index = 0; index < rsList.size(); index++) {
-            entries.add(new BarEntry(index + 1, Float.valueOf(String.valueOf(rsList.get(index).get("valAcc")))));
+        for (int index = 0; index < rsList.size() - 1; index++) {
+            entries.add(new BarEntry(index + 1, Float.valueOf(String.valueOf(rsList.get(index + 1).get("valAcc")))));
         }
 
         BarDataSet set = new BarDataSet(entries, curKpiName + "-累计(万元)");
@@ -419,8 +419,8 @@ public class dz_enter_material_activity extends BeamBaseActivity {
 
         ArrayList<Entry> entries = new ArrayList<Entry>();
 
-        for (int index = 0; index < rsList.size(); index++)
-            entries.add(new Entry(index + 1, Float.valueOf(String.valueOf(rsList.get(index).get("valAccPy")))));
+        for (int index = 0; index < rsList.size() - 1; index++)
+            entries.add(new Entry(index + 1, Float.valueOf(String.valueOf(rsList.get(index + 1).get("valAccPy")))));
 
         LineDataSet set = new LineDataSet(entries, curKpiName + "-增幅(%)");
         set.setColor(Color.rgb(255, 0, 0));

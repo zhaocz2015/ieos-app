@@ -36,7 +36,7 @@ public class dz_enter_industry_table extends BeamFragment {
     TableFixHeaders table;
 
     private String[] headerTitles = {"行业名称", "企业户数", "本月", "本月增幅", "累计", "累计增幅"};
-    private String[] columnLabels = {"name", "amount", "valCm", "valCmPy", "valAcc", "valAccPy"};
+    private String[] columnLabels = {"dimname", "entcount", "valCm", "valCmPy", "valAcc", "valAccPy"};
 
     @Nullable
     @Override
@@ -74,7 +74,7 @@ public class dz_enter_industry_table extends BeamFragment {
 
         @Override
         public int getColumnCount() {
-            return rsList == null ? 0 : headerTitles.length - 1;
+            return rsList == null ? 0 : columnLabels.length - 1;
         }
 
         @Override

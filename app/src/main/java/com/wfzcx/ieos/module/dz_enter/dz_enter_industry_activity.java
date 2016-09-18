@@ -17,9 +17,9 @@ import com.github.mikephil.charting.charts.CombinedChart;
 import com.jude.beam.expansion.BeamBaseActivity;
 import com.jude.utils.JUtils;
 import com.wfzcx.ieos.R;
+import com.wfzcx.ieos.data.model.AccountModel;
 import com.wfzcx.ieos.data.model.KpiDataModel;
 import com.wfzcx.ieos.data.service.ErrorTransform;
-import com.wfzcx.ieos.module.dz_macro.dz_macro_city_industry_table;
 import com.wx.wheelview.adapter.ArrayWheelAdapter;
 import com.wx.wheelview.widget.WheelView;
 
@@ -58,8 +58,8 @@ public class dz_enter_industry_activity extends BeamBaseActivity {
 
     private String jsonStr = "{" +
             "label: '指标'," +
-            "keys:  ['13','26', '550']," +
-            "values: ['主营业务收入', '利润总额','实现利税']" +
+            "keys:  ['33','13','26','550']," +
+            "values: ['工业总产值','主营业务收入', '利润总额','实现利税']" +
             "}";
 
     private JSONObject jsonObj;
@@ -232,10 +232,15 @@ public class dz_enter_industry_activity extends BeamBaseActivity {
             return;
         }
 
+        String whereSql = " b.dscode='DIRECTRPT' and b.dim_trade2 is not null and b.targetid = 13 ";
+        if (!AccountModel.getInstance().getUsername().equals("dzs")) {
+            whereSql = " b.dscode='DIRECTRPT' and b.dim_trade2 is not null and b.targetid = 13 and b.regionid = ( select s.regionid from ieos.sys_user s where s.username='" + AccountModel.getInstance().getUsername() + "') ";
+        }
+
         // 首次查询当前数据可查询的日期时间
         Map<String, RequestBody> params = new HashMap<>();
-        params.put("type", RequestBody.create(MediaType.parse("text/plain"), "lastyearmonth0"));
-        params.put("tablename", RequestBody.create(MediaType.parse("text/plain"), "economic_fact"));
+        params.put("type", RequestBody.create(MediaType.parse("text/plain"), "dz_base_lastyearmonth"));
+        params.put("wheresql", RequestBody.create(MediaType.parse("text/plain"), whereSql));
         KpiDataModel.getInstance().getKpiData(params)
                 .compose(new ErrorTransform<>())
                 .subscribe(rsDates -> {
@@ -257,10 +262,15 @@ public class dz_enter_industry_activity extends BeamBaseActivity {
 
     private void renderData(String kpi) {
         Map<String, RequestBody> params = new HashMap<>();
-        toolbarTitle.setText(curNd + "年" + curYd + "月" + "标准行业主要经济指标分析(万元、%)");
+        toolbarTitle.setText(AccountModel.getInstance().getUserCnname() + curNd + "年" + curYd + "月" + "标准行业分析(万元、%)");
 
-        params.put("type", RequestBody.create(MediaType.parse("text/plain"), "dz_enter_industry_ctrl_sql"));
-        params.put("month_id", RequestBody.create(MediaType.parse("text/plain"), curNd + "-" + curYd));
+        params.put("type", RequestBody.create(MediaType.parse("text/plain"), "dz_enter_industry_sql"));
+        params.put("month_id", RequestBody.create(MediaType.parse("text/plain"), "M" + curNd + "-" + curYd));
+        params.put("targetId", RequestBody.create(MediaType.parse("text/plain"), kpi));
+
+        if (!AccountModel.getInstance().getUsername().equals("dzs")) {
+            params.put("whereEnterSql", RequestBody.create(MediaType.parse("text/plain"), kpi));
+        }
 
         KpiDataModel.getInstance().getKpiData(params)
                 .subscribe(rsList -> {

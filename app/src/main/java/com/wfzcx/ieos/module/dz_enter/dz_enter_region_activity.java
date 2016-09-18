@@ -35,7 +35,6 @@ import com.wfzcx.ieos.R;
 import com.wfzcx.ieos.data.model.AccountModel;
 import com.wfzcx.ieos.data.model.KpiDataModel;
 import com.wfzcx.ieos.data.service.ErrorTransform;
-import com.wfzcx.ieos.module.dz_macro.dz_macro_pro_region_table;
 import com.wx.wheelview.adapter.ArrayWheelAdapter;
 import com.wx.wheelview.widget.WheelView;
 
@@ -329,8 +328,8 @@ public class dz_enter_region_activity extends BeamBaseActivity {
         toolbarTitle.setText(AccountModel.getInstance().getUserCnname() + curNd + "年" + curYd + "月" + "主要经济指标分析(万元、%)");
 
         params.put("type", RequestBody.create(MediaType.parse("text/plain"), "dz_enter_region_sql"));
-        params.put("month_id", RequestBody.create(MediaType.parse("text/plain"), curNd + "-" + curYd));
-        params.put("tatgetId", RequestBody.create(MediaType.parse("text/plain"), kpi));
+        params.put("month_id", RequestBody.create(MediaType.parse("text/plain"), "M" + curNd + "-" + curYd));
+        params.put("targetId", RequestBody.create(MediaType.parse("text/plain"), kpi));
 
         KpiDataModel.getInstance().getKpiData(params)
                 .subscribe(rsList -> {

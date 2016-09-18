@@ -84,7 +84,7 @@ public class dz_macro_city_ib_table extends BeamFragment {
 
         @Override
         public int getColumnCount() {
-            return rsList == null ? 0 : headerTitles.length - 1;
+            return rsList == null ? 0 : columnLabels.length - 1;
         }
 
         @Override
