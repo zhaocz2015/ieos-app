@@ -98,11 +98,11 @@
         <!-- 产品分析 -->
         <activity android:name=".module.dz_product.dz_product_enter_activity" />
 
-        <!--&lt;!&ndash; 原材料分析 &ndash;&gt;-->
-        <!--<activity android:name=".module.dz_product.dz_material_enter" />-->
+        <!-- 原材料分析 -->
+        <activity android:name=".module.dz_product.dz_material_enter_activity" />
 
-        <!--&lt;!&ndash; 订单分析 &ndash;&gt;-->
-        <!--<activity android:name=".module.dz_product.dz_order_enter" />-->
+        <!-- 订单分析 -->
+        <activity android:name=".module.dz_product.dz_order_enter_activity" />
 
         <!-- 预测预警 -->
 
