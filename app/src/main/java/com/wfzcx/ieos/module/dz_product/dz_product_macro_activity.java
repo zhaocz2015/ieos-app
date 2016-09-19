@@ -253,6 +253,7 @@ public class dz_product_macro_activity extends BeamBaseActivity {
         params.put("month_id", RequestBody.create(MediaType.parse("text/plain"), curNd + "-" + curYd));
 
         KpiDataModel.getInstance().getKpiData(params)
+                .doOnTerminate(() -> getExpansion().dismissProgressDialog())
                 .subscribe(rsList -> {
                     if (rsList.isEmpty()) {
                         JUtils.Toast("暂无数据");

@@ -46,7 +46,7 @@ public class KpiServiceVHolder extends BaseViewHolder<Map> {
         ButterKnife.bind(this, itemView);
 
         itemView.setOnClickListener(view -> {
-            if (Boolean.valueOf(String.valueOf(menu.get("myFunc")))) {
+            if (Boolean.valueOf(String.valueOf(menu.get("myFunc"))) && target instanceof MyFuncsActivity) {
 
                 if (view.getTag() == null) {
                     menuOk.setVisibility(View.VISIBLE);

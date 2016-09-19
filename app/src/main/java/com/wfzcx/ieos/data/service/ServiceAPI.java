@@ -1,7 +1,5 @@
 package com.wfzcx.ieos.data.service;
 
-import com.wfzcx.ieos.data.bean.ResultMap;
-
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +24,10 @@ public interface ServiceAPI {
     @POST("permissions/LoginController/login.do")
     @FormUrlEncoded
     Observable<Map> login(@Field("usercode") String username, @Field("passwd") String password);
+
+    @POST("permissions/LoginController/modify.do")
+    @FormUrlEncoded
+    Observable<Map> modPasw(@Field("usercode") String username, @Field("passwd") String oldpasw, @Field("newpasswd") String newpasw);
 
     @Multipart
     @POST("queryData/query.do")

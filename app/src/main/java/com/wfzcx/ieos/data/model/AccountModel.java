@@ -10,6 +10,7 @@ import com.wfzcx.ieos.app.Dir;
 import com.wfzcx.ieos.data.bean.ServerAddr;
 import com.wfzcx.ieos.data.service.DaggerServiceAPIModuleComponent;
 import com.wfzcx.ieos.data.service.DyncUrlInterceptor;
+import com.wfzcx.ieos.data.service.ErrorTransform;
 import com.wfzcx.ieos.data.service.SchedulerTransform;
 import com.wfzcx.ieos.data.service.ServiceAPI;
 
@@ -83,6 +84,12 @@ public class AccountModel extends AbsModel {
                     account.put("password", password);
                     mAccountSubject.onNext(account);
                 });
+    }
+
+    public Observable<Map> modPasw(String username, String oldpasw, String newpasw) {
+        return mServiceAPI.modPasw(username, oldpasw, newpasw)
+                .compose(new SchedulerTransform<>())
+                .compose(new ErrorTransform<>());
     }
 
     public void logout() {

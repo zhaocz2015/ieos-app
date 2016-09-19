@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.jude.beam.expansion.BeamBaseActivity;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
@@ -25,9 +26,11 @@ import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.DividerDecoration;
 import com.jude.utils.JUtils;
 import com.wfzcx.ieos.R;
+import com.wfzcx.ieos.app.Const;
 import com.wfzcx.ieos.data.model.AccountModel;
 import com.wfzcx.ieos.module.kpi.KpiServiceFragment;
 import com.wfzcx.ieos.module.login.LoginActivity;
+import com.wfzcx.ieos.module.settings.ModPaswActivity;
 import com.wfzcx.ieos.module.settings.MyFuncsActivity;
 import com.wfzcx.ieos.utils.ResUtil;
 
@@ -89,6 +92,7 @@ public class MainActivity extends BeamBaseActivity {
             @Override
             public Fragment getItem(int position) {
                 Bundle b = new Bundle();
+                b.putBoolean("myFunc", false);
                 b.putString("pkg", (String) appMenus.get(position).get("code"));
                 b.putSerializable("subMenus", (ArrayList) appMenus.get(position).get("childrens"));
 
@@ -151,8 +155,26 @@ public class MainActivity extends BeamBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (!AccountModel.getInstance().isLogin()) {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         funcAdapter.clear();
         funcAdapter.addAll((List<Map>) accMap.get("funcs"));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Const.REQ_MOD_PASW_CODE && resultCode == RESULT_OK) {
+            // 修改密码，重新登录
+            AccountModel.getInstance().logout();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void initNavigationView() {
@@ -166,7 +188,8 @@ public class MainActivity extends BeamBaseActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.mod_pwd:
-                        JUtils.Toast("修改密码");
+                        startActivityForResult(new Intent(getApplicationContext(), ModPaswActivity.class), Const.REQ_MOD_PASW_CODE);
+                        drawerLayout.closeDrawers();
                         break;
                     case R.id.update_app:
                         JUtils.Toast("更新版本");
@@ -176,9 +199,17 @@ public class MainActivity extends BeamBaseActivity {
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.logout:
-                        AccountModel.getInstance().logout();
-                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                        finish();
+                        new MaterialDialog.Builder(MainActivity.this)
+                                .content("是否注销用户")
+                                .positiveText("确定")
+                                .onPositive((dialog, which) -> {
+                                    AccountModel.getInstance().logout();
+                                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                                    finish();
+                                })
+                                .negativeText("取消")
+                                .show();
+
                 }
                 return false;
             }

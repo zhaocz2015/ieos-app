@@ -18,6 +18,6 @@ public class Const {
     public static final int DEFAULT_SERVER_PORT = 8087;
     public static final String DEFAULT_SERVER_WEB = "bieosAppWeb";
 
-    public static final int REQ_MY_FUNC_CODE = 101;
+    public static final int REQ_MOD_PASW_CODE = 101;
 
 }
