@@ -306,6 +306,7 @@ public class dz_macro_city_elec_contrast_activity extends BeamBaseActivity {
         params.put("wheresql", RequestBody.create(MediaType.parse("text/plain"), " b.dscode = 'ELECOUNTY' "));
         KpiDataModel.getInstance().getKpiData(params)
                 .compose(new ErrorTransform<>())
+                .doOnTerminate(() -> getExpansion().dismissProgressDialog())
                 .subscribe(rsDates -> {
                     if (rsDates.isEmpty()) {
                         JUtils.Toast("暂无数据");
@@ -332,6 +333,7 @@ public class dz_macro_city_elec_contrast_activity extends BeamBaseActivity {
         params.put("month_id", RequestBody.create(MediaType.parse("text/plain"), curNd + "-" + curYd));
 
         KpiDataModel.getInstance().getKpiData(params)
+                .doOnTerminate(() -> getExpansion().dismissProgressDialog())
                 .subscribe(rsList -> {
                     if (rsList.isEmpty()) {
                         JUtils.Toast("暂无数据");

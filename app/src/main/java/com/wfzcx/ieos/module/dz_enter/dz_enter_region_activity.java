@@ -305,6 +305,7 @@ public class dz_enter_region_activity extends BeamBaseActivity {
         params.put("wheresql", RequestBody.create(MediaType.parse("text/plain"), " b.dscode='DIRECTRPT' and b.targetid = 13 "));
         KpiDataModel.getInstance().getKpiData(params)
                 .compose(new ErrorTransform<>())
+                .doOnTerminate(() -> getExpansion().dismissProgressDialog())
                 .subscribe(rsDates -> {
                     if (rsDates.isEmpty()) {
                         JUtils.Toast("暂无数据");
@@ -332,6 +333,7 @@ public class dz_enter_region_activity extends BeamBaseActivity {
         params.put("targetId", RequestBody.create(MediaType.parse("text/plain"), kpi));
 
         KpiDataModel.getInstance().getKpiData(params)
+                .doOnTerminate(() -> getExpansion().dismissProgressDialog())
                 .subscribe(rsList -> {
                     if (rsList.isEmpty()) {
                         JUtils.Toast("暂无数据");

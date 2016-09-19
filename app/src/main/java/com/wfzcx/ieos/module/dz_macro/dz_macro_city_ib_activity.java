@@ -239,6 +239,7 @@ public class dz_macro_city_ib_activity extends BeamBaseActivity {
         params.put("wheresql", RequestBody.create(MediaType.parse("text/plain"), " b.dscode = 'IBSTATE' "));
         KpiDataModel.getInstance().getKpiData(params)
                 .compose(new ErrorTransform<>())
+                .doOnTerminate(() -> getExpansion().dismissProgressDialog())
                 .subscribe(rsDates -> {
                     if (rsDates.isEmpty()) {
                         JUtils.Toast("暂无数据");
@@ -269,6 +270,7 @@ public class dz_macro_city_ib_activity extends BeamBaseActivity {
         }
 
         KpiDataModel.getInstance().getKpiData(params)
+                .doOnTerminate(() -> getExpansion().dismissProgressDialog())
                 .subscribe(rsList -> {
                     if (rsList.isEmpty()) {
                         JUtils.Toast("暂无数据");

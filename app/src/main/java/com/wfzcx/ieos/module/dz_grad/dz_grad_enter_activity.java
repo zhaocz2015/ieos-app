@@ -249,6 +249,7 @@ public class dz_grad_enter_activity extends BeamBaseActivity {
         params.put("wheresql", RequestBody.create(MediaType.parse("text/plain"), " where datasource=2 "));
         KpiDataModel.getInstance().getKpiData(params)
                 .compose(new ErrorTransform<>())
+                .doOnTerminate(() -> getExpansion().dismissProgressDialog())
                 .subscribe(rsDates -> {
                     if (rsDates.isEmpty()) {
                         JUtils.Toast("暂无数据");
@@ -289,6 +290,7 @@ public class dz_grad_enter_activity extends BeamBaseActivity {
         params.put("whereSql", RequestBody.create(MediaType.parse("text/plain"), whereSql));
 
         KpiDataModel.getInstance().getKpiData(params)
+                .doOnTerminate(() -> getExpansion().dismissProgressDialog())
                 .subscribe(rsList -> {
                     if (rsList.isEmpty()) {
                         JUtils.Toast("暂无数据");

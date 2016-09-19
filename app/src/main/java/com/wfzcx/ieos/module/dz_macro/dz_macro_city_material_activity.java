@@ -309,6 +309,7 @@ public class dz_macro_city_material_activity extends BeamBaseActivity {
         params.put("wheresql", RequestBody.create(MediaType.parse("text/plain"), " b.dscode='TRADE' and b.dim_03 is not null and b.targetid in (550,13,26,500) "));
         KpiDataModel.getInstance().getKpiData(params)
                 .compose(new ErrorTransform<>())
+                .doOnTerminate(() -> getExpansion().dismissProgressDialog())
                 .subscribe(rsDates -> {
                     if (rsDates.isEmpty()) {
                         JUtils.Toast("暂无数据");
@@ -338,6 +339,7 @@ public class dz_macro_city_material_activity extends BeamBaseActivity {
         params.put("bmonthId", RequestBody.create(MediaType.parse("text/plain"), curNd + "-" + curYd));
 
         KpiDataModel.getInstance().getKpiData(params)
+                .doOnTerminate(() -> getExpansion().dismissProgressDialog())
                 .subscribe(rsList -> {
                     if (rsList.isEmpty()) {
                         JUtils.Toast("暂无数据");
