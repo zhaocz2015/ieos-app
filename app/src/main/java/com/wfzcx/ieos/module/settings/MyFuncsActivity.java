@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,12 +78,13 @@ public class MyFuncsActivity extends BeamBaseActivity implements SlideAndDragLis
         List<Map> appMenus = (List<Map>) accMap.get("appMenus");
 
         mViewPager.setOffscreenPageLimit(appMenus.size());
-        mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+        mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
 
             @Override
             public Fragment getItem(int position) {
                 Bundle b = new Bundle();
-                b.putBoolean("isFunc", true);
+                b.putBoolean("myFunc", true);
+                b.putSerializable("funcs", (ArrayList<Map>) accMap.get("funcs"));
                 b.putString("pkg", (String) appMenus.get(position).get("code"));
                 b.putSerializable("subMenus", (ArrayList) appMenus.get(position).get("childrens"));
 
@@ -100,6 +102,11 @@ public class MyFuncsActivity extends BeamBaseActivity implements SlideAndDragLis
             @Override
             public CharSequence getPageTitle(int position) {
                 return (String) appMenus.get(position).get("name");
+            }
+
+            @Override
+            public int getItemPosition(Object object) {
+                return POSITION_NONE;
             }
         });
         mTabLayout.setupWithViewPager(mViewPager);
@@ -154,6 +161,7 @@ public class MyFuncsActivity extends BeamBaseActivity implements SlideAndDragLis
             funcAdapter.addItem(menu);
         } else {
             funcAdapter.removeItem(funcAdapter.indexOf(menu));
+            mViewPager.getAdapter().notifyDataSetChanged();
         }
         funcListView.setOnDragListener(MyFuncsActivity.this, funcAdapter.getAllItems());
 

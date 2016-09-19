@@ -14,7 +14,6 @@ import com.wfzcx.ieos.module.settings.MyFuncsActivity;
 import com.wfzcx.ieos.utils.ResUtil;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -47,7 +46,7 @@ public class KpiServiceVHolder extends BaseViewHolder<Map> {
         ButterKnife.bind(this, itemView);
 
         itemView.setOnClickListener(view -> {
-            if (Boolean.valueOf(String.valueOf(menu.get("isFunc")))) {
+            if (Boolean.valueOf(String.valueOf(menu.get("myFunc")))) {
 
                 if (view.getTag() == null) {
                     menuOk.setVisibility(View.VISIBLE);
@@ -75,6 +74,16 @@ public class KpiServiceVHolder extends BaseViewHolder<Map> {
     @Override
     public void setData(Map data) {
         menu = data;
+
+        if (Boolean.valueOf(String.valueOf(menu.get("myFunc")))) {
+            if (Boolean.valueOf(String.valueOf(data.get("isFunc")))) {
+                menuOk.setVisibility(View.VISIBLE);
+                itemView.setTag(true);
+            } else {
+                menuOk.setVisibility(View.GONE);
+                itemView.setTag(null);
+            }
+        }
 
         String iconStr = data.get("img").toString().replaceAll("img/", "").replaceAll(".png", "");
         ResUtil.setImageRes(menuIcon, iconStr);
