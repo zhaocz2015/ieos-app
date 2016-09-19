@@ -76,6 +76,9 @@ public class MainActivity extends BeamBaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        // 检查版本
+        AccountModel.getInstance().updateSoft(MainActivity.this);
+
         accMap = AccountModel.getInstance().getAccount();
         initNavigationView();
         initViewPager();
@@ -183,6 +186,7 @@ public class MainActivity extends BeamBaseActivity {
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
+        navView.setItemIconTintList(null);
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -192,7 +196,7 @@ public class MainActivity extends BeamBaseActivity {
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.update_app:
-                        JUtils.Toast("更新版本");
+                        AccountModel.getInstance().updateSoft(MainActivity.this);
                         break;
                     case R.id.my_func:
                         startActivity(new Intent(getApplicationContext(), MyFuncsActivity.class));

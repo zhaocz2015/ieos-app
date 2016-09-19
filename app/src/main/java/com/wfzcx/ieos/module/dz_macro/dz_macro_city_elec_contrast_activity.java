@@ -327,7 +327,7 @@ public class dz_macro_city_elec_contrast_activity extends BeamBaseActivity {
     private void renderData(String kpi) {
 
         Map<String, RequestBody> params = new HashMap<>();
-        toolbarTitle.setText(AccountModel.getInstance().getUserCnname() + curNd + "年" + curYd + "月" + "工业用电对比分析(万千瓦时、%)");
+        toolbarTitle.setText(AccountModel.getInstance().getRegionname() + curNd + "年" + curYd + "月" + "工业用电对比分析(万千瓦时、%)");
 
         params.put("type", RequestBody.create(MediaType.parse("text/plain"), "city_contrast_elec_sql"));
         params.put("month_id", RequestBody.create(MediaType.parse("text/plain"), curNd + "-" + curYd));

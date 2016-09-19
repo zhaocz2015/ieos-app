@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".app.APP"
         android:allowBackup="true"
@@ -40,6 +43,10 @@
 
         <!-- 常用功能设置 -->
         <activity android:name=".module.settings.MyFuncsActivity" />
+
+        <service
+            android:name=".module.settings.UpdateService"
+            android:label="版本更新" />
 
         <!-- 宏观经济 -->
 

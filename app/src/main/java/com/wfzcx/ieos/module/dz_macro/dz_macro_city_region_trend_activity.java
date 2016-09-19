@@ -329,7 +329,7 @@ public class dz_macro_city_region_trend_activity extends BeamBaseActivity {
         curUnit = Integer.valueOf(kpi) == 500 ? "万元" : "亿元";
 
         Map<String, RequestBody> params = new HashMap<>();
-        toolbarTitle.setText(AccountModel.getInstance().getUserCnname() + "综合趋势分析(" + curUnit + "、%)");
+        toolbarTitle.setText(AccountModel.getInstance().getRegionname() + "综合趋势分析(" + curUnit + "、%)");
 
         params.put("type", RequestBody.create(MediaType.parse("text/plain"), "city_macro_regin_thrend_sql"));
         params.put("bmonth_id", RequestBody.create(MediaType.parse("text/plain"), (Integer.valueOf(curNd) - 1) + "-" + curYd));

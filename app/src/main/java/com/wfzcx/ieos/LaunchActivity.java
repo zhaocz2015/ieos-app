@@ -26,7 +26,6 @@ public class LaunchActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
                 Class clazz = LoginActivity.class;
                 if (AccountModel.getInstance().isLogin()) {
                     clazz = MainActivity.class;

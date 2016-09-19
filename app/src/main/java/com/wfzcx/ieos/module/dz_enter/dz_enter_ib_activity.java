@@ -264,7 +264,7 @@ public class dz_enter_ib_activity extends BeamBaseActivity {
 
     private void renderData(String kpi) {
         Map<String, RequestBody> params = new HashMap<>();
-        toolbarTitle.setText(AccountModel.getInstance().getUserCnname() + curNd + "年" + curYd + "月产业基地分析(万元、%)");
+        toolbarTitle.setText(AccountModel.getInstance().getRegionname() + curNd + "年" + curYd + "月产业基地分析(万元、%)");
 
         params.put("type", RequestBody.create(MediaType.parse("text/plain"), "dz_enter_ib_sql"));
         params.put("month_id", RequestBody.create(MediaType.parse("text/plain"), "M" + curNd + "-" + curYd));

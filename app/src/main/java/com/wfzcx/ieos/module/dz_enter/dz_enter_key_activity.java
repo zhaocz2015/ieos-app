@@ -272,7 +272,7 @@ public class dz_enter_key_activity extends BeamBaseActivity {
 
     private void renderData(String kpi) {
         Map<String, RequestBody> params = new HashMap<>();
-        toolbarTitle.setText(AccountModel.getInstance().getUserCnname() + curNd + "年" + curYd + "月重点企业效益简况(万元、%)");
+        toolbarTitle.setText(AccountModel.getInstance().getRegionname() + curNd + "年" + curYd + "月重点企业效益简况(万元、%)");
 
         params.put("type", RequestBody.create(MediaType.parse("text/plain"), "dz_trend_key_sql"));
         params.put("month_id", RequestBody.create(MediaType.parse("text/plain"), "M" + curNd + "-" + curYd));

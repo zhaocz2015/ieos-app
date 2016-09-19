@@ -2,11 +2,11 @@ package com.wfzcx.ieos.module.settings;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jude.beam.expansion.BeamBaseActivity;
+import com.jude.tagview.TAGView;
 import com.jude.utils.JUtils;
 import com.wfzcx.ieos.R;
 import com.wfzcx.ieos.data.model.AccountModel;
@@ -39,7 +39,7 @@ public class ModPaswActivity extends BeamBaseActivity {
     EditText rptpasw;
 
     @BindView(R.id.btn_ok)
-    Button okBtn;
+    TAGView okBtn;
 
     private Map accMap;
 
@@ -64,21 +64,25 @@ public class ModPaswActivity extends BeamBaseActivity {
 
     private void modPasw() {
         if (TextUtils.isEmpty(oldpasw.getText().toString())) {
+            oldpasw.requestFocus();
             JUtils.Toast("请输入旧密码");
             return;
         }
 
         if (TextUtils.isEmpty(newpasw.getText().toString())) {
+            newpasw.requestFocus();
             JUtils.Toast("请输入新密码");
             return;
         }
 
         if (TextUtils.isEmpty(rptpasw.getText().toString())) {
+            rptpasw.requestFocus();
             JUtils.Toast("请确认新密码");
             return;
         }
 
         if (!newpasw.getText().toString().equals(rptpasw.getText().toString())) {
+            rptpasw.requestFocus();
             JUtils.Toast("确认密码不一致，请重新输入");
             return;
         }

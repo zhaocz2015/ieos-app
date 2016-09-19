@@ -327,7 +327,7 @@ public class dz_macro_city_elec_trend_activity extends BeamBaseActivity {
     private void renderData(String kpi) {
 
         Map<String, RequestBody> params = new HashMap<>();
-        toolbarTitle.setText(AccountModel.getInstance().getUserCnname() + "用电趋势分析(万千瓦时、%)");
+        toolbarTitle.setText(AccountModel.getInstance().getRegionname() + "用电趋势分析(万千瓦时、%)");
 
         params.put("type", RequestBody.create(MediaType.parse("text/plain"), "city_macro_ele_thrend_sql"));
         params.put("bmonth_id", RequestBody.create(MediaType.parse("text/plain"), (Integer.valueOf(curNd) - 1) + "-" + curYd));

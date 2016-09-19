@@ -329,7 +329,7 @@ public class dz_macro_city_region_contrast_activity extends BeamBaseActivity {
         curUnit = Integer.valueOf(kpi) == 500 ? "万元" : "亿元";
 
         Map<String, RequestBody> params = new HashMap<>();
-        toolbarTitle.setText(AccountModel.getInstance().getUserCnname() + curNd + "年" + curYd + "月" + "各县市区经济指标分析(" + curUnit + "、%)");
+        toolbarTitle.setText(AccountModel.getInstance().getRegionname() + curNd + "年" + curYd + "月" + "各县市区经济指标分析(" + curUnit + "、%)");
 
         params.put("type", RequestBody.create(MediaType.parse("text/plain"), "macro_city_region_sql"));
         params.put("month_id", RequestBody.create(MediaType.parse("text/plain"), curNd + "-" + curYd));

@@ -299,7 +299,7 @@ public class dz_order_enter_activity extends BeamBaseActivity {
 
     private void renderData(String kpi) {
         Map<String, RequestBody> params = new HashMap<>();
-        toolbarTitle.setText(AccountModel.getInstance().getUserCnname() + "调度订单指数分析(单位：户)");
+        toolbarTitle.setText(AccountModel.getInstance().getRegionname() + "调度订单指数分析(单位：户)");
 
         params.put("type", RequestBody.create(MediaType.parse("text/plain"), "dz_order_enter_sql"));
         params.put("month_id", RequestBody.create(MediaType.parse("text/plain"), curNd + "-" + curYd));
