@@ -35,6 +35,12 @@
 
         <activity android:name=".module.main.MainActivity" />
 
+        <!-- 修改密码 -->
+        <activity android:name=".module.settings.ModPaswActivity" />
+
+        <!-- 常用功能设置 -->
+        <activity android:name=".module.settings.MyFuncsActivity" />
+
         <!-- 宏观经济 -->
 
         <!--全省区域分析-->
@@ -121,10 +127,10 @@
         <!-- 绩效评价 -->
 
         <!-- 县市区绩效评价 -->
-        <!--<activity android:name=".module.dz_grad.dz_grad_region" />-->
+        <activity android:name=".module.dz_grad.dz_grad_region_activity" />
 
-        <!--&lt;!&ndash; 企业绩效评价 &ndash;&gt;-->
-        <!--<activity android:name=".module.dz_grad.dz_grad_enter" />-->
+        <!-- 企业绩效评价 -->
+        <activity android:name=".module.dz_grad.dz_grad_enter_activity" />
 
     </application>
 

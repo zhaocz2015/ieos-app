@@ -1,8 +1,11 @@
 package com.wfzcx.ieos.utils;
 
 import android.content.Context;
+import android.widget.ImageView;
 
 import com.wfzcx.ieos.app.APP;
+
+import java.lang.reflect.Field;
 
 /**
  * Copyright (C) 2016
@@ -48,6 +51,15 @@ public class ResUtil {
     public static int getArrayId(String paramString) {
         return mContext.getResources().getIdentifier(paramString,
                 "array", mContext.getPackageName());
+    }
+
+    public static void setImageRes(ImageView imgView, String imageName) {
+        try {
+            Field field = Class.forName("com.wfzcx.ieos.R$drawable").getField(imageName);
+            imgView.setImageResource(field.getInt(field));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

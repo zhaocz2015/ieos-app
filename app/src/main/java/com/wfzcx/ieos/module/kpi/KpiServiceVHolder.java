@@ -1,14 +1,20 @@
 package com.wfzcx.ieos.module.kpi;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.wfzcx.ieos.R;
+import com.wfzcx.ieos.module.settings.MyFuncsActivity;
+import com.wfzcx.ieos.utils.ResUtil;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -27,39 +33,58 @@ public class KpiServiceVHolder extends BaseViewHolder<Map> {
 
     @BindView(R.id.iv_menu_icon)
     RoundedImageView menuIcon;
+
+    @BindView(R.id.iv_menu_ok)
+    ImageView menuOk;
+
     @BindView(R.id.tv_menu_name)
     TextView menuName;
 
     private Map menu;
 
-    public KpiServiceVHolder(ViewGroup parent) {
+    public KpiServiceVHolder(ViewGroup parent, Activity target) {
         super(parent, R.layout.item_kpi_service);
         ButterKnife.bind(this, itemView);
 
         itemView.setOnClickListener(view -> {
-            try {
-                Intent i = new Intent(getContext(), Class.forName("com.wfzcx.ieos.module." + menu.get("pkg") + "." + menu.get("code") + "_activity"));
-                getContext().startActivity(i);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+            if (Boolean.valueOf(String.valueOf(menu.get("isFunc")))) {
 
+                if (view.getTag() == null) {
+                    menuOk.setVisibility(View.VISIBLE);
+                    view.setTag(true);
+                } else {
+                    menuOk.setVisibility(View.GONE);
+                    view.setTag(null);
+                }
+
+                ((MyFuncsActivity) target).renderFuncData(menu);
+
+            } else {
+
+                try {
+                    Intent i = new Intent(getContext(), Class.forName("com.wfzcx.ieos.module." + menu.get("pkg") + "." + menu.get("code") + "_activity"));
+                    getContext().startActivity(i);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         });
     }
+
 
     @Override
     public void setData(Map data) {
         menu = data;
 
         String iconStr = data.get("img").toString().replaceAll("img/", "").replaceAll(".png", "");
-        setImageRes(iconStr);
+        ResUtil.setImageRes(menuIcon, iconStr);
         menuName.setText((String) menu.get("name"));
     }
 
-    private void setImageRes(String imageName) {
+    public static void setImageRes(ImageView imgView, String imageName) {
         try {
             Field field = Class.forName("com.wfzcx.ieos.R$drawable").getField(imageName);
-            menuIcon.setImageResource(field.getInt(field));
+            imgView.setImageResource(field.getInt(field));
         } catch (Exception e) {
             e.printStackTrace();
         }

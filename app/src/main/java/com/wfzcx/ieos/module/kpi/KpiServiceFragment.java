@@ -50,7 +50,7 @@ public class KpiServiceFragment extends BeamListFragment<KpiServicePresenter, Ma
 
     @Override
     public BaseViewHolder<Map> getViewHolder(ViewGroup parent, int viewType) {
-        return new KpiServiceVHolder(parent);
+        return new KpiServiceVHolder(parent, getActivity());
     }
 
     @Override

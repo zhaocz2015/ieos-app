@@ -33,6 +33,7 @@ public class KpiServicePresenter extends BeamListFragmentPresenter<KpiServiceFra
                 .map(maps -> {
                     for (Map m : maps) {
                         m.put("pkg", getView().getArguments().getString("pkg"));
+                        m.put("isFunc", getView().getArguments().getBoolean("isFunc", false));
                     }
 
                     return maps;

@@ -1,6 +1,7 @@
 package com.wfzcx.ieos.module.main;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,16 +12,24 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jude.beam.expansion.BeamBaseActivity;
+import com.jude.easyrecyclerview.EasyRecyclerView;
+import com.jude.easyrecyclerview.adapter.BaseViewHolder;
+import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.jude.easyrecyclerview.decoration.DividerDecoration;
 import com.jude.utils.JUtils;
 import com.wfzcx.ieos.R;
 import com.wfzcx.ieos.data.model.AccountModel;
 import com.wfzcx.ieos.module.kpi.KpiServiceFragment;
 import com.wfzcx.ieos.module.login.LoginActivity;
+import com.wfzcx.ieos.module.settings.MyFuncsActivity;
+import com.wfzcx.ieos.utils.ResUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +59,10 @@ public class MainActivity extends BeamBaseActivity {
     @BindView(R.id.vp_kpi)
     ViewPager mViewPager;
 
+    @BindView(R.id.recycler)
+    EasyRecyclerView funcRecylcer;
+    RecyclerArrayAdapter funcAdapter;
+
     private long mLastBackPressTime = 0;
 
     private Map accMap;
@@ -63,6 +76,7 @@ public class MainActivity extends BeamBaseActivity {
         accMap = AccountModel.getInstance().getAccount();
         initNavigationView();
         initViewPager();
+        initFuncRecycler();
 
     }
 
@@ -98,6 +112,49 @@ public class MainActivity extends BeamBaseActivity {
 
     }
 
+    private void initFuncRecycler() {
+        DividerDecoration itemDecoration = new DividerDecoration(Color.parseColor("#c7c7c7"), JUtils.dip2px(0.5f), 0, 0);
+        funcRecylcer.addItemDecoration(itemDecoration);
+
+        funcAdapter = new RecyclerArrayAdapter(getApplicationContext()) {
+            @Override
+            public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
+                return new BaseViewHolder<Map>(parent, R.layout.item_quick_func) {
+                    @Override
+                    public void setData(Map data) {
+                        String iconStr = data.get("img").toString().replaceAll("img/", "").replaceAll(".png", "");
+                        ResUtil.setImageRes($(R.id.iv_menu_icon), iconStr);
+
+                        TextView menuName = $(R.id.tv_menu_name);
+                        menuName.setText((String) data.get("name"));
+                    }
+                };
+            }
+        };
+
+
+        funcRecylcer.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        funcRecylcer.setAdapter(funcAdapter);
+
+        funcAdapter.setOnItemClickListener(position -> {
+            try {
+                Map menu = (Map) funcAdapter.getItem(position);
+                Intent i = new Intent(this, Class.forName("com.wfzcx.ieos.module." + menu.get("pkg") + "." + menu.get("code") + "_activity"));
+                startActivity(i);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        funcAdapter.clear();
+        funcAdapter.addAll((List<Map>) accMap.get("funcs"));
+    }
+
     private void initNavigationView() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, getToolbar(), R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -111,11 +168,12 @@ public class MainActivity extends BeamBaseActivity {
                     case R.id.mod_pwd:
                         JUtils.Toast("修改密码");
                         break;
-                    case R.id.update:
+                    case R.id.update_app:
                         JUtils.Toast("更新版本");
                         break;
-                    case R.id.about:
-                        JUtils.Toast("关于APP");
+                    case R.id.my_func:
+                        startActivity(new Intent(getApplicationContext(), MyFuncsActivity.class));
+                        drawerLayout.closeDrawers();
                         break;
                     case R.id.logout:
                         AccountModel.getInstance().logout();

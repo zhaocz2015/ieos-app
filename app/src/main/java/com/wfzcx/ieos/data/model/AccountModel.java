@@ -7,7 +7,6 @@ import com.jude.beam.model.AbsModel;
 import com.jude.utils.JFileManager;
 import com.wfzcx.ieos.app.Const;
 import com.wfzcx.ieos.app.Dir;
-import com.wfzcx.ieos.data.bean.ResultMap;
 import com.wfzcx.ieos.data.bean.ServerAddr;
 import com.wfzcx.ieos.data.service.DaggerServiceAPIModuleComponent;
 import com.wfzcx.ieos.data.service.DyncUrlInterceptor;
@@ -90,15 +89,19 @@ public class AccountModel extends AbsModel {
         mAccountSubject.onNext(null);
     }
 
+    public void setAccount(Map account) {
+        mAccountSubject.onNext(account);
+    }
+
     public Map getAccount() {
         return mAccountSubject.getValue();
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return (String) getAccount().get("username");
     }
 
-    public String getUserCnname(){
+    public String getUserCnname() {
         return (String) getAccount().get("userCnname");
     }
 
