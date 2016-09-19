@@ -39,12 +39,15 @@ public class KpiServiceVHolder extends BaseViewHolder<Map> {
     @BindView(R.id.tv_menu_name)
     TextView menuName;
 
+    private Activity target;
+
     private Map menu;
 
     public KpiServiceVHolder(ViewGroup parent, Activity target) {
         super(parent, R.layout.item_kpi_service);
         ButterKnife.bind(this, itemView);
 
+        this.target = target;
         itemView.setOnClickListener(view -> {
             if (Boolean.valueOf(String.valueOf(menu.get("myFunc"))) && target instanceof MyFuncsActivity) {
 
@@ -75,7 +78,7 @@ public class KpiServiceVHolder extends BaseViewHolder<Map> {
     public void setData(Map data) {
         menu = data;
 
-        if (Boolean.valueOf(String.valueOf(menu.get("myFunc")))) {
+        if (Boolean.valueOf(String.valueOf(menu.get("myFunc"))) && target instanceof MyFuncsActivity) {
             if (Boolean.valueOf(String.valueOf(data.get("isFunc")))) {
                 menuOk.setVisibility(View.VISIBLE);
                 itemView.setTag(true);
