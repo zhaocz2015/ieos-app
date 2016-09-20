@@ -66,11 +66,7 @@ dependencies {
 
     compile 'com.alibaba:fastjson:1.1.54.android'
 
-    compile 'com.wx.wheelview:wheelview:1.3.3'
-
     compile 'com.yydcdut.sdlv:sdlv:0.5.4'
-
-    compile 'com.bigkoo:alertview:1.0.3'
 
     compile 'com.jude:tagview:2.1.5'
 
