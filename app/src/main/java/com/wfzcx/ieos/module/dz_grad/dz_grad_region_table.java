@@ -80,7 +80,7 @@ public class dz_grad_region_table extends BeamFragment {
         @Override
         public int getWidth(int column) {
             if (column == -1) {
-                return JUtils.dip2px(80);
+                return JUtils.dip2px(85);
             }
 
             return width;
