@@ -63,7 +63,7 @@ public class dz_grad_region_table extends BeamFragment {
 
             this.rsList = rsList;
 
-            width = JUtils.dip2px(100);
+            width = JUtils.dip2px(60);
             height = JUtils.dip2px(40);
         }
 
@@ -79,9 +79,9 @@ public class dz_grad_region_table extends BeamFragment {
 
         @Override
         public int getWidth(int column) {
-//            if (column != -1) {
-//                return JUtils.dip2px(35);
-//            }
+            if (column == -1) {
+                return JUtils.dip2px(80);
+            }
 
             return width;
         }
