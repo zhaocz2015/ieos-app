@@ -125,7 +125,7 @@ public class dz_macro_pro_elec_contrast_activity extends BeamBaseActivity {
                         curNd = (String) yearWheelView.getSelectionItem();
                         curYd = (String) monthWheelView.getSelectionItem();
 
-                        mViewPager.setCurrentItem(kpiWheelView.getCurrentPosition());
+                        renderData(0);
                     })
                     .negativeText("取消")
                     .onNegative((dialog1, which1) -> {
@@ -148,7 +148,7 @@ public class dz_macro_pro_elec_contrast_activity extends BeamBaseActivity {
         yearWheelView.setSkin(WheelView.Skin.Common);
         yearWheelView.setWheelAdapter(new ArrayWheelAdapter(this));
         yearWheelView.setWheelData(years);
-        yearWheelView.setSelection(curYear - 2010);
+        yearWheelView.setSelection(Integer.valueOf(curNd) - 2010);
 
         List<String> months = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
@@ -164,21 +164,6 @@ public class dz_macro_pro_elec_contrast_activity extends BeamBaseActivity {
         monthWheelView.setWheelAdapter(new ArrayWheelAdapter(this));
         monthWheelView.setWheelData(months);
         monthWheelView.setSelection(Integer.valueOf(curYd) - 1);
-
-
-        int curIndex = 0;
-        List<String> kpis = jsonObj.getJSONArray("values").toJavaObject(List.class);
-        for (int i = 0; i < kpis.size(); i++) {
-            if (curKpiName.equals(kpis.get(i))) {
-                curIndex = i;
-                break;
-            }
-        }
-        kpiWheelView = (WheelView) wheelView.findViewById(R.id.wv_kpi);
-        kpiWheelView.setSkin(WheelView.Skin.Common);
-        kpiWheelView.setWheelAdapter(new ArrayWheelAdapter(this));
-        kpiWheelView.setWheelData(kpis);
-        kpiWheelView.setSelection(curIndex);
 
     }
 

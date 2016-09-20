@@ -28,6 +28,7 @@
             android:background="#F7F7F7"
             app:tabIndicatorColor="#2196F3"
             app:tabSelectedTextColor="#2196F3"
+            app:tabTextAppearance="@style/TabLayoutTextStyle"
             app:tabTextColor="#000" />
 
         <View

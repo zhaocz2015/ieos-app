@@ -13,6 +13,7 @@ import com.wfzcx.ieos.R;
 import com.wfzcx.ieos.ui.tablefixheader.TableFixHeaders;
 import com.wfzcx.ieos.ui.tablefixheader.adapters.SampleTableAdapter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -95,6 +96,10 @@ public class dz_macro_pro_region_table extends BeamFragment {
         public String getCellString(int row, int column) {
             if (row == -1) {
                 return rsList == null ? "" : headerTitles[column + 1];
+            }
+
+            if (column == 0 || column == 1) {
+                return new BigDecimal(String.valueOf(rsList.get(row).get(columnLabels[column + 1]))).intValue() + "";
             }
 
             return String.valueOf(rsList.get(row).get(columnLabels[column + 1]));

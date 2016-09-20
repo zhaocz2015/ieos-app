@@ -73,4 +73,6 @@ dependencies {
     compile 'com.bigkoo:alertview:1.0.3'
 
     compile 'com.jude:tagview:2.1.5'
+
+    compile 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
 }

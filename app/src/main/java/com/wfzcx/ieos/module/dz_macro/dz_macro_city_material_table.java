@@ -13,6 +13,7 @@ import com.wfzcx.ieos.R;
 import com.wfzcx.ieos.ui.tablefixheader.TableFixHeaders;
 import com.wfzcx.ieos.ui.tablefixheader.adapters.SampleTableAdapter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -97,11 +98,11 @@ public class dz_macro_city_material_table extends BeamFragment {
                 return rsList == null ? "" : headerTitles[column + 1];
             }
 
-            if (column == -1) {
-                return String.valueOf(rsList.get(row).get(columnLabels[column + 1]));
-            } else {
-                return Double.valueOf(String.valueOf(rsList.get(row).get(columnLabels[column + 1]))).toString();
+            if (column == 0) {
+                return new BigDecimal(String.valueOf(rsList.get(row).get(columnLabels[column + 1]))).intValue() + "";
             }
+            
+            return String.valueOf(rsList.get(row).get(columnLabels[column + 1]));
         }
 
         @Override

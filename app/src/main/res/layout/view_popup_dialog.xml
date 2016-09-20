@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#0000"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal">
+
+
+    <com.aigestudio.wheelpicker.widgets.WheelYearPicker
+        android:id="@+id/wp_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:wheel_atmospheric="true"
+        app:wheel_curtain="true"
+        app:wheel_curtain_color="#3ddd"
+        app:wheel_curved="true"
+        app:wheel_cyclic="false"
+        app:wheel_selected_item_text_color="#2196f3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="8dp"
+        android:text="年"
+        android:textColor="#2196F3"
+        android:textSize="18sp" />
+
+    <com.aigestudio.wheelpicker.widgets.WheelMonthPicker
+        android:id="@+id/wp_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:wheel_atmospheric="true"
+        app:wheel_curtain="true"
+        app:wheel_curtain_color="#3ddd"
+        app:wheel_curved="true"
+        app:wheel_cyclic="false"
+        app:wheel_indicator_color="@color/md_btn_selected"
+        app:wheel_selected_item_text_color="#2196f3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="8dp"
+        android:text="月"
+        android:textColor="#2196F3"
+        android:textSize="18sp" />
+
+    <com.aigestudio.wheelpicker.WheelPicker
+        android:id="@+id/wp_thrd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:wheel_atmospheric="true"
+        app:wheel_curtain="true"
+        app:wheel_curtain_color="#3ddd"
+        app:wheel_curved="true"
+        app:wheel_cyclic="false"
+        app:wheel_selected_item_text_color="#2196f3" />
+
+</LinearLayout>

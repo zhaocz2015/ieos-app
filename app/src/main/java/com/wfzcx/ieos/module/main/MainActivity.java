@@ -77,7 +77,7 @@ public class MainActivity extends BeamBaseActivity {
         ButterKnife.bind(this);
 
         // 检查版本
-        AccountModel.getInstance().updateSoft(MainActivity.this);
+//        AccountModel.getInstance().updateSoft(MainActivity.this);
 
         accMap = AccountModel.getInstance().getAccount();
         initNavigationView();

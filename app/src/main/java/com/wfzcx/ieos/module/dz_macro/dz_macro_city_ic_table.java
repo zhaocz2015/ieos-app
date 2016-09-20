@@ -13,6 +13,7 @@ import com.wfzcx.ieos.R;
 import com.wfzcx.ieos.ui.tablefixheader.TableFixHeaders;
 import com.wfzcx.ieos.ui.tablefixheader.adapters.SampleTableAdapter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +64,7 @@ public class dz_macro_city_ic_table extends BeamFragment {
 
             this.rsList = rsList;
 
-            width = JUtils.dip2px(100);
+            width = JUtils.dip2px(60);
             height = JUtils.dip2px(30);
         }
 
@@ -74,13 +75,13 @@ public class dz_macro_city_ic_table extends BeamFragment {
 
         @Override
         public int getColumnCount() {
-            return rsList == null ? 0 : rsList.get(0).size() - 1;
+            return rsList == null ? 0 : columnLabels.length - 1;
         }
 
         @Override
         public int getWidth(int column) {
             if (column == -1) {
-                return JUtils.dip2px(60);
+                return JUtils.dip2px(120);
             }
 
             return width;
@@ -95,6 +96,14 @@ public class dz_macro_city_ic_table extends BeamFragment {
         public String getCellString(int row, int column) {
             if (row == -1) {
                 return rsList == null ? "" : headerTitles[column + 1];
+            }
+
+            if (rsList.get(row).get(columnLabels[column + 1]) == null) {
+                return "0";
+            }
+
+            if (column == 0 || column == 1) {
+                return new BigDecimal(String.valueOf(rsList.get(row).get(columnLabels[column + 1]))).intValue() + "";
             }
 
             return String.valueOf(rsList.get(row).get(columnLabels[column + 1]));
