@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -35,11 +34,9 @@ import com.wfzcx.ieos.R;
 import com.wfzcx.ieos.data.model.AccountModel;
 import com.wfzcx.ieos.data.model.KpiDataModel;
 import com.wfzcx.ieos.data.service.ErrorTransform;
-import com.wx.wheelview.adapter.ArrayWheelAdapter;
-import com.wx.wheelview.widget.WheelView;
+import com.wfzcx.ieos.utils.PopupUtil;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,86 +103,32 @@ public class dz_macro_city_elec_contrast_activity extends BeamBaseActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    private WheelView yearWheelView;
-    private WheelView monthWheelView;
-    private WheelView kpiWheelView;
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_search) {
-            // 搜索
-            View wheelView = View.inflate(this, R.layout.view_search_dz_macro_pro_region, null);
-            initWheelView(wheelView);
-            new MaterialDialog.Builder(this)
-                    .title("查询条件")
-                    .customView(wheelView, true)
-                    .positiveText("确定")
-                    .onPositive((dialog, which) -> {
-                        getExpansion().showProgressDialog("正在加载数据");
-
-                        curNd = (String) yearWheelView.getSelectionItem();
-                        curYd = (String) monthWheelView.getSelectionItem();
-
-                        mViewPager.setCurrentItem(kpiWheelView.getCurrentPosition());
-                    })
-                    .negativeText("取消")
-                    .onNegative((dialog1, which1) -> {
-                        JUtils.Toast("取消");
-                    })
-                    .show();
-
+            PopupUtil.showPopupView();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void initWheelView(View wheelView) {
-        List<String> years = new ArrayList<>();
-        int curYear = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = 2010; i <= curYear; i++) {
-            years.add(i + "");
-        }
-
-        yearWheelView = (WheelView) wheelView.findViewById(R.id.wv_year);
-        yearWheelView.setSkin(WheelView.Skin.Common);
-        yearWheelView.setWheelAdapter(new ArrayWheelAdapter(this));
-        yearWheelView.setWheelData(years);
-        yearWheelView.setSelection(curYear - 2010);
-
-        List<String> months = new ArrayList<>();
-        for (int i = 1; i <= 12; i++) {
-            if (i < 10) {
-                months.add("0" + i);
-                continue;
-            }
-
-            months.add(i + "");
-        }
-        monthWheelView = (WheelView) wheelView.findViewById(R.id.wv_month);
-        monthWheelView.setSkin(WheelView.Skin.Common);
-        monthWheelView.setWheelAdapter(new ArrayWheelAdapter(this));
-        monthWheelView.setWheelData(months);
-        monthWheelView.setSelection(Integer.valueOf(curYd) - 1);
-
-
-        int curIndex = 0;
-        List<String> kpis = jsonObj.getJSONArray("values").toJavaObject(List.class);
-        for (int i = 0; i < kpis.size(); i++) {
-            if (curKpiName.equals(kpis.get(i))) {
-                curIndex = i;
-                break;
-            }
-        }
-        kpiWheelView = (WheelView) wheelView.findViewById(R.id.wv_kpi);
-        kpiWheelView.setSkin(WheelView.Skin.Common);
-        kpiWheelView.setWheelAdapter(new ArrayWheelAdapter(this));
-        kpiWheelView.setWheelData(kpis);
-        kpiWheelView.setSelection(curIndex);
-
-    }
-
     private void renderView() {
+        renderPopView();
         renderChartView();
         renderViewPager();
+    }
+
+    private void renderPopView() {
+
+        PopupUtil.renderPopupView(this, null, new PopupUtil.PopupViewListener() {
+            @Override
+            public void setOnPositiveListener(Map<String, Integer> rsMap) {
+                curNd = String.valueOf(rsMap.get("curNd"));
+                curYd = String.valueOf(rsMap.get("curYd") < 9 ? "0" + rsMap.get("curYd") : rsMap.get("curYd"));
+
+                renderData(0);
+            }
+        });
+
     }
 
     private void renderChartView() {
@@ -296,6 +239,8 @@ public class dz_macro_city_elec_contrast_activity extends BeamBaseActivity {
         getExpansion().showProgressDialog("正在加载数据");
 
         if (curNd != null && curYd != null) {
+            PopupUtil.getInitData().put("curNd", Integer.valueOf(curNd));
+            PopupUtil.getInitData().put("curYd", Integer.valueOf(curYd));
             renderData((String) jsonObj.getJSONArray("keys").get(pos));
             return;
         }
@@ -315,6 +260,9 @@ public class dz_macro_city_elec_contrast_activity extends BeamBaseActivity {
                         String date = rsMap.get("yd").toString();
                         curNd = date.substring(0, 4);
                         curYd = date.substring(5, 7);
+
+                        PopupUtil.getInitData().put("curNd", Integer.valueOf(curNd));
+                        PopupUtil.getInitData().put("curYd", Integer.valueOf(curYd));
 
                         renderData((String) jsonObj.getJSONArray("keys").get(pos));
 
