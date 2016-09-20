@@ -81,7 +81,7 @@ public class dz_enter_industry_table extends BeamFragment {
         @Override
         public int getWidth(int column) {
             if (column == -1) {
-                return JUtils.dip2px(100);
+                return JUtils.dip2px(140);
             }
 
             return width;
